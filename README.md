@@ -3,7 +3,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 |  |  |  |  |
 |     :---:      |     :---:      |     :---:      |     :---:      |
-| [Requirements](#Requirements)   | [Extron Setup](#setting-up-your-extron)    [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control))     | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)    |
+| [Requirements](#Requirements)   | [Extron Setup](#setting-up-your-extron)  |  [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control))     | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)    |
 
 <img width="403" height="190" alt="20260829_185446" src="https://github.com/user-attachments/assets/197eb57e-717c-4292-8be0-c54855a0fa25" />
 <img width="148" height="242" alt="20260801_075523" src="https://github.com/user-attachments/assets/e7413a50-80bc-494c-b290-3c645737c92d" />
@@ -40,11 +40,14 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
   * You may need a [DB9/RS232 to USB cable](https://www.amazon.com/Adapter-Prolific-Chipset-CableCreation-Converter/dp/B0758BWVXF) and the Extron Matrix Switcher Control Program to set a static IP, you can find the program via the Internet Archive.
 * Profiles setup on your Matrix
   * You can set profiles via the front buttons, via the Extron Matrix Switcher + Control Program, or via the Matrix's native web control which can be accessed at the static IP you set.
+
 ## Setting up your Extron
+
 ### Front Panel Reset
 When you first receive your Extron it is good practice to perform a front panel reset.  
 To do this press and hold the Video and Audio buttons <img width="54" height="40" alt="image" src="https://github.com/user-attachments/assets/f740a199-a63d-4ce1-94f0-d978c12e2c26" /> simultaneously while plugging the Extron into power.  
 The buttons will flash and turn off, keep holding until they turn back on. This removes any preexisting presets or settings that may interfere with your use.  
+
 ### IP Address Setup
 In order to use your Extron with Super CRT-Control it will need to be connected to your local network and setup with a static IP address.  
 There are several ways to do this. Plug your Extron into an ethernet cable and into your home network to get started. Using a powerline or wireless bridge should work fine.  
@@ -70,6 +73,7 @@ There are several ways to do this. Plug your Extron into an ethernet cable and i
        - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b0fabdb2-fd64-4256-b447-0e92cd8d5522" />
 	 - Click the **X** in the upper right corner of the program to close it, when it asks to save select **Yes**.
        - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4d7d6dc7-e690-42d6-9639-ff19527dc3c1" />
+
 ### Saving Presets
 Now that you have your Extron on your network we can begin creating the presets that Super CRT-Control will load for you.  
 There are several ways to do this but the simplest is by using the **Default Web Page** so that is the only method I will enumerate.  
@@ -82,14 +86,12 @@ There are several ways to do this but the simplest is by using the **Default Web
        - Outputs ***cannot*** overlap.
    - Once you have the configuration you want click **Take**.
    - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
-5. 
-
-
-
-
-
-
-
+5. Now that you have an input/output configuration that you want to save as a preset active click on **Global Presets** on the left-hand menu.
+   - On the **Global Presets** page click on **Save Preset** to activate the selector.
+   - Click on the `[unassigned]` button you want for your preset.
+   - If desired enter a name in the text box next to the **Select Preset..** button.
+   - Click **Accept** to save the preset. The number next to the preset you saved will be used when setting up Super CRT-Control.
+6. Repeat steps 2 - 5 to create as many profiles as you'd like.
 
 ## Setup and Use of Super CRT-Control
 1. Download the latest release and extract to the folder that you assigned as the root of your web server.
