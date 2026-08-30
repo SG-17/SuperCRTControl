@@ -40,7 +40,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
   * You may need a [DB9/RS232 to USB cable](https://www.amazon.com/Adapter-Prolific-Chipset-CableCreation-Converter/dp/B0758BWVXF) and the Extron Matrix Switcher + Control Program to set a static IP, you can find the program via the Internet Archive.
 * Profiles setup on your Matrix
   * You can set profiles via the front buttons, via the Extron Matrix Switcher + Control Program, or via the Matrix's native web control which can be accessed at the static IP you set.
-## Setup and Use
+## Setup and Use of Super CRT-Control
 1. Download the latest release and extract to the folder that you assigned as the root of your web server.
 
 2. Decide which size button layout will be your home page.
