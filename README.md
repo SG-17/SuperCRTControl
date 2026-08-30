@@ -96,7 +96,7 @@ There are several ways to do this but the simplest is by using the **Default Web
 6. Repeat steps 2 - 5 to create as many profiles as you'd like.
 
 ## Setup and Use of Super CRT-Control
-1. Download the latest release and extract to the folder that you assigned as the root of your web server.
+1. Download the latest [release](https://github.com/SG-17/SuperCRTControl/releases) and extract to the folder that you assigned as the root of your web server.
 
 2. Decide which size button layout will be your home page.
    If you are using a size other than 16 delete or rename the `index.html` in the .zip, make a copy of the .html file that matches the size you want(such as `control12.html`), rename it to `index.html`, and open it in your text editor of choice.
