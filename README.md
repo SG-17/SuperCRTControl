@@ -50,11 +50,16 @@ In order to use your Extron with Super CRT-Control it will need to be connected 
 There are several ways to do this. Plug your Extron into an ethernet cable and into your home network to get started. Using a powerline or wireless bridge should work fine.  
 1. Via the existing IP Address
    - By default all Extrons will have the ip `192.168.254.254` assigned to them. If the previous owner did not change this you *should* be able to enter it in a web browser and access settings from there.
-   - Open the Default Web Page and click on `Configuration`.
+   - Open the Default Web Page and click on **Configuration**.
      - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/bd201c06-db35-4a3e-8f0c-ff712e26c302" />
    - Under `IP Settings` turn **DHCP** to **Off**.
-   - Enter the IP you want to assign the Extron along with the Gateway Address and Subnet that matches your network. Click Submit.
+   - Enter the **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Submit**.
      - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/151dc331-99d4-42d7-ab01-219f00771b55" />
+2. Via the Extron Matrix Switcher + Control Program over a Serial RS-232 connection
+   - Connect a [DB9/RS232 to USB cable](https://www.amazon.com/Adapter-Prolific-Chipset-CableCreation-Converter/dp/B0758BWVXF) to the DB9 port on the rear of the Extron <img width="107" height="131" alt="image" src="https://github.com/user-attachments/assets/c5acca52-1e77-4f42-abb7-a94fe732ad96" />.  
+     or  
+   - Connect a [USB RS232 to 3.5mm cable](https://www.amazon.com/dp/B07XXWVH69) to the **Config** port on the front of your Extron if present.
+
 
 
 
