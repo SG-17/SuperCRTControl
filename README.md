@@ -66,7 +66,7 @@ There are several ways to do this. Plug your Extron into an ethernet cable and i
    - Open your **Device Manager** in Windows and look under `Ports (COM & LPT)` to find out which COM number your Extron is on.
    - Launch the Extron Matrix Switcher Control Program.
      - Click the button for the COM port you found above or click **More** and enter the number and click **OK**
-       - <img width="100" height="145" alt="image" src="https://github.com/user-attachments/assets/beeb0dfa-3d38-4288-8e5a-3081b1e4075b" />
+       - <img width="150" height="195" alt="image" src="https://github.com/user-attachments/assets/beeb0dfa-3d38-4288-8e5a-3081b1e4075b" />
 	 - Click **Tools** --> **IP Options**.
        - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/25f9601f-0c29-463c-9fb5-0b5829964cbd" />
 	 - Uncheck `Use DHCP` and enter **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Take**.
