@@ -104,7 +104,7 @@ There are several ways to do this but the simplest is by using the **Default Web
  	* Replace the `#` with the number of the profile on the Extron that the link will be loading. The period (`.`) at the end is necessary, do not delete it.
 
 4. Check the `images` folder to make sure that all of the buttons you want to use are present.
-   If you need something that isn't present use the [Touchscreen Button.psd](Utilities/Buttons/Extra Templates/Touchscreen Button.psd) template to create it.
+   If you need something that isn't present use the [Touchscreen Button.psd](https://github.com/SG-17/SuperCRTControl/blob/main/Utilities/Buttons/Extra%20Templates/Touchscreen%20Button.psd) template to create it.
 
 5. Change the image link to the matching image you desire and the alt text to match.
    Example below:  
