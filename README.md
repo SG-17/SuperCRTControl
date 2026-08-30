@@ -16,4 +16,9 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 > [!NOTE]
 > Since we are only serving web pages on your local network we do not need to worry about https, SSL, and so on.
 > We just need to be able to serve .html pages and use javascript.
+* A text editor that supports basic markdown is recommended but not required
+  * [Notepad++](https://notepad-plus-plus.org/)
+  * [Kate](https://kate-editor.org/)
+  * [Nextpad++](https://nextpad.org/)
+
 
