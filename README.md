@@ -1,5 +1,6 @@
 # Super CRT-Control
-A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE Touchscreen-Control"](https://shmups.system11.org/viewtopic.php?t=69630) web app designed to be hosted on a dedicated local web server rather than the Extrons themselves. Allows for control of a virtually unlimited number of Extron Crosspoint Matrix Switchers with no limit on file sizes, page depth, or image quality on any web capable device on your local network such as an old tablet or your phone. Crosspoints have a meager amount of file storage that one will quickly find themselves running up against if they have a large number of inputs and outputs in use. **Super CRT-Control** is designed to alleviate that. [Setup Guide](#Setup-and-Use).
+A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE Touchscreen-Control"](https://shmups.system11.org/viewtopic.php?t=69630) web app designed to be hosted on a dedicated local web server rather than the Extrons themselves. Allows for control of a virtually unlimited number of Extron Crosspoint Matrix Switchers with no limit on file sizes, page depth, or image quality on any web capable device on your local network such as an old tablet or your phone. Crosspoints have a meager amount of file storage that one will quickly find themselves running up against if they have a large number of inputs and outputs in use. **Super CRT-Control** is designed to alleviate that. 
+|[Requirements](#Requirements)|[Setup Guide](#Setup-and-Use)|[Project Status and Disclaimers](#Project-Status-and-Disclaimers)|
 
 <img width="403" height="190" alt="20260829_185446" src="https://github.com/user-attachments/assets/197eb57e-717c-4292-8be0-c54855a0fa25" />
 <img width="148" height="242" alt="20260801_075523" src="https://github.com/user-attachments/assets/e7413a50-80bc-494c-b290-3c645737c92d" />
@@ -78,4 +79,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 	```
        
 10. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
-
+## Project Status and Disclaimers
+> This project comes with no guarantees or timetables.
+> This project is tailored to enthusiasts who either have the skills or the drive to learn the skills to implement it. Support will not be provided for setting up a local web server.
+> All testing has been done on a Samsung Galaxy Tab 3 7.0 using an old version of Firefox Android, a newer Samsung Galaxy phone using a current version of Firefox Android, and a Windows 10 PC and Linux Mint PC both using current versions of Firefox.
