@@ -1,6 +1,6 @@
 # Super CRT-Control
 A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE Touchscreen-Control"](https://shmups.system11.org/viewtopic.php?t=69630) web app designed to be hosted on a dedicated local web server rather than the Extrons themselves. Allows for control of a virtually unlimited number of Extron Crosspoint Matrix Switchers with no limit on file sizes, page depth, or image quality on any web capable device on your local network such as an old tablet or your phone. Crosspoints have a meager amount of file storage that one will quickly find themselves running up against if they have a large number of inputs and outputs in use. **Super CRT-Control** is designed to alleviate that.  
-**Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle) and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink
+**Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle) and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.
 
 |  |  |  |  |  |
 |     :---:      |     :---:      |     :---:      |     :---:      |     :---:      |
