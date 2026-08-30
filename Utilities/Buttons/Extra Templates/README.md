@@ -6,7 +6,8 @@ This folder contains various photoshop templates for use with Extrons.
 `Extron Crosspoint Ultra -- LABELS pg1.psd` and the other two pages are the button templates created by Dochartaigh for the original CRT-Control.  
 `Extron Label Singular.psd` is a collection of buttons in layers on a 1x1 grid to make it easier to prep a button to load into a printable grid.  
 `Monitor.psd` is a template I made that has various combos of monitor icons with associated resolutions so you can mix and match to your desire.  
-`Tink.psd` is a template that I made that contains buttons for the various RetroTink devices.
+`Tink.psd` is a template that I made that contains buttons for the various RetroTink devices.  
+`Touchscreen Button.psd` is for use with Super CRT-Control to make new buttons that you may need.
 
 > [!TIP]
 > The buttons on Extrons that are compatible with Super CRT-Control are `0.5" x 0.5"`/`12.7mm x 12.7mm`/`300 x 300 pixels at 600 dpi` in size.
