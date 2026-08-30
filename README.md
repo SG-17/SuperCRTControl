@@ -1,9 +1,9 @@
 # Super CRT-Control
 A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE Touchscreen-Control"](https://shmups.system11.org/viewtopic.php?t=69630) web app designed to be hosted on a dedicated local web server rather than the Extrons themselves. Allows for control of a virtually unlimited number of Extron Crosspoint Matrix Switchers with no limit on file sizes, page depth, or image quality on any web capable device on your local network such as an old tablet or your phone. Crosspoints have a meager amount of file storage that one will quickly find themselves running up against if they have a large number of inputs and outputs in use. **Super CRT-Control** is designed to alleviate that. 
 
-|  |  |  |
-|     :---:      |     :---:      |     :---:      |
-| [Requirements](#Requirements)   | [Setup Guide](#Setup-and-Use)     | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)    |
+|  |  |  |  |
+|     :---:      |     :---:      |     :---:      |     :---:      |
+| [Requirements](#Requirements)   | [Extron Setup](#setting-up-your-extron)    [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control))     | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)    |
 
 <img width="403" height="190" alt="20260829_185446" src="https://github.com/user-attachments/assets/197eb57e-717c-4292-8be0-c54855a0fa25" />
 <img width="148" height="242" alt="20260801_075523" src="https://github.com/user-attachments/assets/e7413a50-80bc-494c-b290-3c645737c92d" />
@@ -40,6 +40,24 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
   * You may need a [DB9/RS232 to USB cable](https://www.amazon.com/Adapter-Prolific-Chipset-CableCreation-Converter/dp/B0758BWVXF) and the Extron Matrix Switcher + Control Program to set a static IP, you can find the program via the Internet Archive.
 * Profiles setup on your Matrix
   * You can set profiles via the front buttons, via the Extron Matrix Switcher + Control Program, or via the Matrix's native web control which can be accessed at the static IP you set.
+## Setting up your Extron
+### Front Panel Reset
+When you first receive your Extron it is good practice to perform a front panel reset.  
+To do this press and hold the Video and Audio buttons <img width="109" height="82" alt="image" src="https://github.com/user-attachments/assets/f740a199-a63d-4ce1-94f0-d978c12e2c26" /> simultaneously while plugging the Extron into power.  
+The buttons will flash and turn off, keep holding until they turn back on. This removes any preexisting presets or settings that may interfere with your use.  
+### IP Address Setup
+In order to use your Extron with Super CRT-Control it will need to be connected to your local network and setup with a static IP address.  
+There are several ways to do this. Plug your Extron into an ethernet cable and into your home network to get started. Using a powerline or wireless bridge should work fine.  
+1. Via the existing IP Address
+   - By default all Extrons will have the ip `192.168.254.254` assigned to them. If the previous owner did not change this you *should* be able to enter it in a web browser and access settings from there.
+   - Open the Default Web Page and click on `Configuration`.
+     - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/bd201c06-db35-4a3e-8f0c-ff712e26c302" />
+   - Under `IP Settings` turn **DHCP** to **Off**.
+   - Enter the IP you want to assign the Extron along with the Gateway Address and Subnet that matches your network. Click Submit.
+     - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/151dc331-99d4-42d7-ab01-219f00771b55" />
+
+
+
 ## Setup and Use of Super CRT-Control
 1. Download the latest release and extract to the folder that you assigned as the root of your web server.
 
