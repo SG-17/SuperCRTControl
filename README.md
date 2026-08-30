@@ -30,31 +30,36 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
   * Extron Crosspoint MAV Plus, 450 Plus, Ultra
   * Extron DXP DVI, DXP HDMI, HD 4K, HD 4K Plus
   * Extron MVX VGA
+  * Potentially other Extrons and other brands, a switch can load presets via a web app it will likely work if the command format can be discovered.
 * Your Extron wired to your local network via ethernet and setup with a static IP
   * You can find instructions by searching for your Extron device and reading the user manual, for example [this](https://media.extron.com/public/download/files/userman/68-521-50_C.pdf) is the manual for the 450 and Ultra.
   * You may need a [DB9/RS232 to USB cable](https://www.amazon.com/Adapter-Prolific-Chipset-CableCreation-Converter/dp/B0758BWVXF) and the Extron Matrix Switcher + Control Program to set a static IP, you can find the program via the Internet Archive.
 * Profiles setup on your Matrix
   * You can set profiles via the front buttons, via the Extron Matrix Switcher + Control Program, or via the Matrix's native web control which can be accessed at the static IP you set.
 ## Setup and Use
-* Download the latest release and extract to the folder that you assigned as the root of your web server.
+1. Download the latest release and extract to the folder that you assigned as the root of your web server.
 
-* Decide which size button layout will be your home page, copy and paste that .html file (such as `control12.html`) and rename it to `index.html` and open it in your text editor of choice.
+2. Decide which size button layout will be your home page.
+   If you are using a size other than 16 delete or rename the `index.html` in the .zip, make a copy of the .html file that matches the size you want(such as `control12.html`), rename it to `index.html`, and open it in your text editor of choice.
 
-* To set a command link enter the static IP Address of your Extron Matrix Switcher that you use to access the web control menu followed by `?cmd=#.`.   
-  * Replace the `#` with the number of the profile on the Extron that the link will be loading. The period (.) at the end is necessary, do not delete it.  
+3. Set your command links by entering the static IP Address(es) of your Extron Matrix Switcher(s) that you use to access the web control menu, followed by `?cmd=#.`.   
+ 	* Replace the `#` with the number of the profile on the Extron that the link will be loading. The period (`.`) at the end is necessary, do not delete it.
 
-* Change the image link to the matching image you desire and the alt text to match.  
-  * Example below:  
-	* `<a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2" type="button"></a>`  
+4. Check the `images` folder to make sure that all of the buttons you want to use are present.
+   If you need something that isn't present use the [Touchscreen Button.psd](Utilities/Buttons/Extra Templates/Touchscreen Button.psd) template to create it.
+
+5. Change the image link to the matching image you desire and the alt text to match.
+   Example below:  
+	* `<a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS1" type="button"></a>`  
     
-* You can link to submenus or second pages for more systems or game specific profiles by simply linking to the new page.  
-  * Example below:  
+6. You can link to submenus or second pages for more systems or game specific profiles by simply linking to the new page.
+   Example below:  
 	* `<a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>`  
-	* Be sure that `target="iframe"` is not included in submenu links.  
+	* Be sure that `target="iframe"` is ***not*** included in submenu links.  
 	* If your main page is named `index.html` a simple `/` in the `href=` of a link on a submenu page will take you back to the main page.  
 
-* Set the style link on line 7 in the header to match the number of buttons you will use for a subpage.  
-  * Examples below:
+7. Set the style link on line 7 in the header to match the number of buttons you will use for a subpage.
+   Examples below:
     ```
 	<link href="/css/style12.css" rel="stylesheet">
 	<link href="/css/style16.css" rel="stylesheet">
@@ -62,7 +67,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 	<link href="/css/style32.css" rel="stylesheet">
 	```
 
-* If you need a button to load a profile on more than one Extron at a time use the following format for the link:  
+9. If you need a button to load a profile on more than one Extron at a time use the following format for the link:  
 	```
  	<a href="#" onclick="multiCmd([
  		'http://192.168.1.249/?cmd=5.',
@@ -72,5 +77,5 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 	</a>
 	```
        
-* Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
+10. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
 
