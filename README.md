@@ -49,15 +49,17 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 * You can link to submenus or second pages for more systems or game specific profiles by simply linking to the new page.  
   * Example below:  
 	* `<a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>`  
-	* Be sure that 'target="iframe"' is not included in submenu links.  
+	* Be sure that `target="iframe"` is not included in submenu links.  
 	* If your main page is named `index.html` a simple `/` in the `href=` of a link on a submenu page will take you back to the main page.  
 
 * Set the style link on line 7 in the header to match the number of buttons you will use for a subpage.  
-  * Examples below:  
-	* `<link href="/css/style12.css" rel="stylesheet">`
-	* `<link href="/css/style16.css" rel="stylesheet">`
-	* `<link href="/css/style20.css" rel="stylesheet">`
-	* `<link href="/css/style32.css" rel="stylesheet">`  
+  * Examples below:
+    ```
+	<link href="/css/style12.css" rel="stylesheet">
+	<link href="/css/style16.css" rel="stylesheet">
+	<link href="/css/style20.css" rel="stylesheet">
+	<link href="/css/style32.css" rel="stylesheet">
+	```
 
 * If you need a button to load a profile on more than one Extron at a time use the following format for the link:  
 	```
