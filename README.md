@@ -3,7 +3,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 |  |  |  |  |
 |     :---:      |     :---:      |     :---:      |     :---:      |
-| [Requirements](#Requirements)   | [Extron Setup](#setting-up-your-extron)  |  [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control))     | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)    |
+| [Requirements](#Requirements)   | [Extron Setup](#setting-up-your-extron)  |  [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control)     | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)    |
 
 <img width="403" height="190" alt="20260829_185446" src="https://github.com/user-attachments/assets/197eb57e-717c-4292-8be0-c54855a0fa25" />
 <img width="148" height="242" alt="20260801_075523" src="https://github.com/user-attachments/assets/e7413a50-80bc-494c-b290-3c645737c92d" />
@@ -85,12 +85,13 @@ There are several ways to do this but the simplest is by using the **Default Web
      - You can assign an input to as many outputs as you want and you can have multiple inputs going to different outputs at the same time.
        - Outputs ***cannot*** overlap.
    - Once you have the configuration you want click **Take**.
-   - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
+     - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
 5. Now that you have an input/output configuration that you want to save as a preset active click on **Global Presets** on the left-hand menu.
    - On the **Global Presets** page click on **Save Preset** to activate the selector.
    - Click on the `[unassigned]` button you want for your preset.
    - If desired enter a name in the text box next to the **Select Preset..** button.
    - Click **Accept** to save the preset. The number next to the preset you saved will be used when setting up Super CRT-Control.
+     - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b2537f9e-9372-4404-8018-2728e185dde3" />
 6. Repeat steps 2 - 5 to create as many profiles as you'd like.
 
 ## Setup and Use of Super CRT-Control
