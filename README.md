@@ -43,7 +43,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 ## Setting up your Extron
 ### Front Panel Reset
 When you first receive your Extron it is good practice to perform a front panel reset.  
-To do this press and hold the Video and Audio buttons <img width="36" height="27" alt="image" src="https://github.com/user-attachments/assets/f740a199-a63d-4ce1-94f0-d978c12e2c26" /> simultaneously while plugging the Extron into power.  
+To do this press and hold the Video and Audio buttons <img width="54" height="40" alt="image" src="https://github.com/user-attachments/assets/f740a199-a63d-4ce1-94f0-d978c12e2c26" /> simultaneously while plugging the Extron into power.  
 The buttons will flash and turn off, keep holding until they turn back on. This removes any preexisting presets or settings that may interfere with your use.  
 ### IP Address Setup
 In order to use your Extron with Super CRT-Control it will need to be connected to your local network and setup with a static IP address.  
@@ -51,7 +51,7 @@ There are several ways to do this. Plug your Extron into an ethernet cable and i
 1. Via the existing IP Address
    - By default all Extrons will have the ip `192.168.254.254` assigned to them. If the previous owner did not change this you *should* be able to enter it in a web browser and access settings from there.
    - Open the Default Web Page and click on **Configuration**.
-     - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/bd201c06-db35-4a3e-8f0c-ff712e26c302" />
+     - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4f1da827-fc6e-407e-9bba-617c4aca104c" />
    - Under `IP Settings` turn **DHCP** to **Off**.
    - Enter the **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Submit**.
      - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/151dc331-99d4-42d7-ab01-219f00771b55" />
@@ -63,13 +63,13 @@ There are several ways to do this. Plug your Extron into an ethernet cable and i
    - Open your **Device Manager** in Windows and look under `Ports (COM & LPT)` to find out which COM number your Extron is on.
    - Launch the Extron Matrix Switcher Control Program.
      - Click the button for the COM port you found above or click **More** and enter the number and click **OK**
-       - <img width="76" height="110" alt="image" src="https://github.com/user-attachments/assets/beeb0dfa-3d38-4288-8e5a-3081b1e4075b" />
+       - <img width="100" height="145" alt="image" src="https://github.com/user-attachments/assets/beeb0dfa-3d38-4288-8e5a-3081b1e4075b" />
 	 - Click **Tools** --> **IP Options**.
-       - <img width="127" height="101" alt="image" src="https://github.com/user-attachments/assets/25f9601f-0c29-463c-9fb5-0b5829964cbd" />
+       - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/25f9601f-0c29-463c-9fb5-0b5829964cbd" />
 	 - Uncheck `Use DHCP` and enter **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Take**.
-       - <img width="127" height="101" alt="image" src="https://github.com/user-attachments/assets/b0fabdb2-fd64-4256-b447-0e92cd8d5522" />
+       - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b0fabdb2-fd64-4256-b447-0e92cd8d5522" />
 	 - Click the **X** in the upper right corner of the program to close it, when it asks to save select **Yes**.
-       - <img width="127" height="101" alt="image" src="https://github.com/user-attachments/assets/4d7d6dc7-e690-42d6-9639-ff19527dc3c1" />
+       - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4d7d6dc7-e690-42d6-9639-ff19527dc3c1" />
 ### Saving Presets
 Now that you have your Extron on your network we can begin creating the presets that Super CRT-Control will load for you.  
 There are several ways to do this but the simplest is by using the **Default Web Page** so that is the only method I will enumerate.  
@@ -81,7 +81,7 @@ There are several ways to do this but the simplest is by using the **Default Web
      - You can assign an input to as many outputs as you want and you can have multiple inputs going to different outputs at the same time.
        - Outputs ***cannot*** overlap.
    - Once you have the configuration you want click **Take**.
-   - <img width="127" height="101" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
+   - <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
 5. 
 
 
