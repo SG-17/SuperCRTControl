@@ -4,8 +4,8 @@ This folder contains various photoshop templates for use with Extrons.
 `Button Grid Official.psd` is the grid that Extron provides with their Button Label Generator program.  
 `CRT.psd` is a template I made that has various combos of CRT icons with associated input types so you can mix and match to your desire.  
 `Extron Crosspoint Ultra -- LABELS pg1.psd` and the other two pages are the button templates created by Dochartaigh for the original CRT-Control.  
-`Extron Label Singular.psd` is a collection of buttons in layers on a 1x1 grid to make it easier to prep a button to load into a printable grid.
-`Monitor.psd` is a template I made that has various combos of monitor icons with associated resolutions so you can mix and match to your desire.
+`Extron Label Singular.psd` is a collection of buttons in layers on a 1x1 grid to make it easier to prep a button to load into a printable grid.  
+`Monitor.psd` is a template I made that has various combos of monitor icons with associated resolutions so you can mix and match to your desire.  
 `Tink.psd` is a template that I made that contains buttons for the various RetroTink devices.
 
 > [!TIP]
