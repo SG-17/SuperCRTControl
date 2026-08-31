@@ -94,8 +94,8 @@ There are several ways to do this but the simplest is by using the **Default Web
 4. In the grid below you have the **Inputs** on the rows and the **Outputs** on the columns
    - Find the row that matches the input you want to use and then click the box in the column of the output you want to use.
      - You can assign an input to as many outputs as you want and you can have multiple inputs going to different outputs at the same time.
-       - Outputs ***cannot*** overlap.
-   - Once you have the configuration you want click **Take**.
+       - Outputs ***cannot*** overlap.  
+   - Once you have the configuration you want click **Take**.  
      <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
      
 5. Now that you have an input/output configuration that you want to save as a preset active click on **Global Presets** on the left-hand menu.
