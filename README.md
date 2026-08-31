@@ -59,11 +59,11 @@ There are several ways to do this. Plug your Extron into an ethernet cable and i
 
 1. Via the existing IP Address
    - By default all Extrons will have the ip `192.168.254.254` assigned to them. If the previous owner did not change this you *should* be able to enter it in a web browser and access settings from there.
-   - Open the Default Web Page and click on **Configuration**.
-     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4f1da827-fc6e-407e-9bba-617c4aca104c" />
+   - Open the Default Web Page and click on **Configuration**.  
+     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4f1da827-fc6e-407e-9bba-617c4aca104c" />  
    - Under `IP Settings` turn **DHCP** to **Off**.
-   - Enter the **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Submit**.
-     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/151dc331-99d4-42d7-ab01-219f00771b55" />
+   - Enter the **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Submit**.  
+     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/151dc331-99d4-42d7-ab01-219f00771b55" />  
      
 2. Via the Extron Matrix Switcher Control Program over a Serial RS-232 connection
    - Connect a [DB9/RS232 to USB cable](https://www.amazon.com/Adapter-Prolific-Chipset-CableCreation-Converter/dp/B0758BWVXF) to the DB9 port on the rear of the Extron <img width="36" height="44" alt="image" src="https://github.com/user-attachments/assets/c5acca52-1e77-4f42-abb7-a94fe732ad96" />. Connect the other end to a ***rear USB port*** on your Windows PC.  
@@ -72,14 +72,14 @@ There are several ways to do this. Plug your Extron into an ethernet cable and i
    - Download and install the [Extron Matrix Switcher Control Program](https://archive.org/details/matrix-sw-v-8x-4).
    - Open your **Device Manager** in Windows and look under `Ports (COM & LPT)` to find out which COM number your Extron is on.
    - Launch the Extron Matrix Switcher Control Program.
-     - Click the button for the COM port you found above or click **More** and enter the number and click **OK**
-       <img width="150" height="195" alt="image" src="https://github.com/user-attachments/assets/beeb0dfa-3d38-4288-8e5a-3081b1e4075b" />
-	 - Click **Tools --> IP Options**.
-       <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/25f9601f-0c29-463c-9fb5-0b5829964cbd" />
-	 - Uncheck `Use DHCP` and enter **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Take**.
-       <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b0fabdb2-fd64-4256-b447-0e92cd8d5522" />
-	 - Click the **X** in the upper right corner of the program to close it, when it asks to save select **Yes**.
-       <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4d7d6dc7-e690-42d6-9639-ff19527dc3c1" />
+     - Click the button for the COM port you found above or click **More** and enter the number and click **OK**  
+       <img width="150" height="195" alt="image" src="https://github.com/user-attachments/assets/beeb0dfa-3d38-4288-8e5a-3081b1e4075b" />  
+	 - Click **Tools --> IP Options**.  
+       <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/25f9601f-0c29-463c-9fb5-0b5829964cbd" />  
+	 - Uncheck `Use DHCP` and enter **IP Address** you want to assign the Extron along with the **Gateway Address** and **Subnet Mask** that matches your network. Click **Take**.  
+       <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b0fabdb2-fd64-4256-b447-0e92cd8d5522" />  
+	 - Click the **X** in the upper right corner of the program to close it, when it asks to save select **Yes**.  
+       <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/4d7d6dc7-e690-42d6-9639-ff19527dc3c1" />  
 
 ### Saving Presets
 Now that you have your Extron on your network we can begin creating the presets that Super CRT-Control will load for you.  
@@ -96,14 +96,14 @@ There are several ways to do this but the simplest is by using the **Default Web
      - You can assign an input to as many outputs as you want and you can have multiple inputs going to different outputs at the same time.
        - Outputs ***cannot*** overlap.  
    - Once you have the configuration you want click **Take**.  
-     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />
+     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/a5b42dc6-e8d4-4cb4-bb5f-90165c8c0d79" />  
      
 5. Now that you have an input/output configuration that you want to save as a preset active click on **Global Presets** on the left-hand menu.
    - On the **Global Presets** page click on **Save Preset** to activate the selector.
    - Click on the `[unassigned]` button you want for your preset.
    - If desired enter a name in the text box next to the **Select Preset..** button.
-   - Click **Accept** to save the preset. The number next to the preset you saved will be used when setting up Super CRT-Control.
-     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b2537f9e-9372-4404-8018-2728e185dde3" />
+   - Click **Accept** to save the preset. The number next to the preset you saved will be used when setting up Super CRT-Control.  
+     <img width="565" height="404" alt="image" src="https://github.com/user-attachments/assets/b2537f9e-9372-4404-8018-2728e185dde3" />  
      
 6. Repeat steps 2 - 5 to create as many presets as you'd like.
 
