@@ -151,9 +151,11 @@ There are several ways to do this but the simplest is by using the **Default Web
 9. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
 
 ## Project Status and Disclaimers
-> This project comes with no guarantees or timetables.  
+> This project comes with no guarantees or timetables.
+> 
 > This project is tailored to enthusiasts who either have the skills or the drive to learn the skills to implement it.  
-> Support will not be provided for setting up a local web server.  
+> Support will not be provided for setting up a local web server.
+> 
 > All testing has been done on a Samsung Galaxy Tab 3 7.0 using an old version of Firefox Android, a newer Samsung Galaxy phone using a current version of Firefox Android, and a Windows 10 PC and Linux Mint PC both using current versions of Firefox.
 
 ## Special Thanks
