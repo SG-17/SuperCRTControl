@@ -148,7 +148,9 @@ There are several ways to do this but the simplest is by using the **Default Web
 	</a>
 	```
   
-9. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
+9. If you want to make a button that clears all inputs and outputs place `?cmd=0*!` after your Extron's IP in a link.
+    
+10. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
 
 ## Project Status and Disclaimers
 > This project comes with no guarantees or timetables.
