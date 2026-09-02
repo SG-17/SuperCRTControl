@@ -4,8 +4,8 @@
 	<meta charset="UTF-8" >
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<title>Super CRT-Control</title>
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href="/css/style16.css" rel="stylesheet">
-	<script src="/script.js"></script> 
 </head>
 <!--
 	CRT-Control created by Dochartaigh of shmups forum.
@@ -49,95 +49,113 @@
 	
 	********************
 	
+	To make a button that resets all ties (input & output connections) use "?cmd=0*!" in your url.
+	
+	********************
+	
 	If you need assistance please ask SG-17 on the RetroTink Discord https://discord.com/invite/jE6deAhjCM
 -->
 <body>	  
-<div class="flex-container">
-<!-- Buttons Start -->
+    <div class="flex-container">
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=3." target="iframe"><img src="images/ps3-crt-c.png" alt="PS3 Component" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.249/?cmd=1." target="iframe"><img src="images/ps3hd-crt-c.png" alt="PS3 HDMI" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.249/?cmd=3." target="iframe"><img src="images/pstv-crt-c.png" alt="PSTV" type="button"></a>
         </div>
       </div>	  
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=4." target="iframe"><img src="images/nes-crt-c.png" alt="NES" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=5." target="iframe"><img src="images/snes-crt-c.png" alt="SNES" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=6." target="iframe"><img src="images/n64-crt-c.png" alt="N64" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+		  <a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=5.',
+								'http://192.168.1.252/?cmd=7.'
+								]); return false;">
+				<img src="images/gamecube-crt-c.png" alt="NGC (both)" type="button">
+		  </a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=8." target="iframe"><img src="images/wii-crt-c.png" alt="Wii" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=11." target="iframe"><img src="images/sgb-crt-c.png" alt="SGB" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+		  <a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=6.',
+								'http://192.168.1.252/?cmd=12.'
+								]); return false;">
+				<img src="images/gbp-crt-c.png" alt="GBI (both)" type="button">
+		  </a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=9." target="iframe"><img src="images/genesis-crt-c.png" alt="Genesis" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.249/?cmd=4." target="iframe"><img src="images/xbox360-crt-c.png" alt="360" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=10." target="iframe"><img src="images/vhs-crt-c.png" alt="VCR" type="button"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="#" target="iframe"><img src="#" alt="" type="button"></a>
+          <a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=0*!',
+								'http://192.168.1.252/?cmd=0*!'
+								]); return false;">
+				<img src="images/reset-crt-c.png" alt="Reset" type="button">
+		  </a>
         </div>
       </div>
-<!-- Buttons End -->
-</div>
+    </div>
 </body>
 
 <iframe name="iframe" style="display:none"></iframe>
+<script src="/script.js"></script>
 
 </html>
