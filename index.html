@@ -4,7 +4,11 @@
 	<meta charset="UTF-8" >
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<title>Super CRT-Control</title>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
+	<link rel="icon" type="image/png" href="/favicon-512x512.png" sizes="512x512" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link href="/css/stylecore.css" rel="stylesheet">
     <link href="/css/style16.css" rel="stylesheet">
 </head>
 <!--
@@ -19,13 +23,13 @@
 	Replace the # with the number of the profile on the Extron that the link will be loading. The period (.) at the end is necessary, do not delete it.
 	Change the image link to the matching image you desire and the alt text to match.
 	Example below:
-				<a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2" type="button"></a>
+				<a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2"></a>
 				
 	*********************
 	
 	You can link to submenus or second pages for more systems or game specific profiles by simply linking to the new page.
 	Example below:
-				<a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>
+				<a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu"></a>
 				
 	Be sure that 'target="iframe"' is not included in submenu links.
 	If your main page is named "index.html" a simple "/" in the href= of a link on a submenu page will take you back to the main page.
@@ -44,7 +48,7 @@
 								'http://192.168.1.249/?cmd=5.',
 								'http://192.168.1.252/?cmd=7.'
 								]); return false;">
-					<img src="images/gamecube-crt-c.png" alt="NGC (both)" type="button">
+					<img src="images/gamecube-crt-c.png" alt="NGC (both)">
 				</a>
 	
 	********************
@@ -57,44 +61,46 @@
 -->
 <body>	  
     <div class="flex-container">
+<!-- Start Buttons -->
+
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>
+          <a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=3." target="iframe"><img src="images/ps3-crt-c.png" alt="PS3 Component" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=3." target="iframe"><img src="images/ps3-crt-c.png" alt="PS3 Component"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.249/?cmd=1." target="iframe"><img src="images/ps3hd-crt-c.png" alt="PS3 HDMI" type="button"></a>
+          <a href="http://192.168.1.249/?cmd=1." target="iframe"><img src="images/ps3hd-crt-c.png" alt="PS3 HDMI"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.249/?cmd=3." target="iframe"><img src="images/pstv-crt-c.png" alt="PSTV" type="button"></a>
+          <a href="http://192.168.1.249/?cmd=3." target="iframe"><img src="images/pstv-crt-c.png" alt="PSTV"></a>
         </div>
       </div>	  
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=4." target="iframe"><img src="images/nes-crt-c.png" alt="NES" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=4." target="iframe"><img src="images/nes-crt-c.png" alt="NES"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=5." target="iframe"><img src="images/snes-crt-c.png" alt="SNES" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=5." target="iframe"><img src="images/snes-crt-c.png" alt="SNES"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=6." target="iframe"><img src="images/n64-crt-c.png" alt="N64" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=6." target="iframe"><img src="images/n64-crt-c.png" alt="N64"></a>
         </div>
       </div>
       <div class="flex-item">
@@ -103,18 +109,18 @@
 								'http://192.168.1.249/?cmd=5.',
 								'http://192.168.1.252/?cmd=7.'
 								]); return false;">
-				<img src="images/gamecube-crt-c.png" alt="NGC (both)" type="button">
+				<img src="images/gamecube-crt-c.png" alt="NGC (both)">
 		  </a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=8." target="iframe"><img src="images/wii-crt-c.png" alt="Wii" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=8." target="iframe"><img src="images/wii-crt-c.png" alt="Wii"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=11." target="iframe"><img src="images/sgb-crt-c.png" alt="SGB" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=11." target="iframe"><img src="images/sgb-crt-c.png" alt="SGB"></a>
         </div>
       </div>
       <div class="flex-item">
@@ -123,23 +129,23 @@
 								'http://192.168.1.249/?cmd=6.',
 								'http://192.168.1.252/?cmd=12.'
 								]); return false;">
-				<img src="images/gbp-crt-c.png" alt="GBI (both)" type="button">
+				<img src="images/gbp-crt-c.png" alt="GBI (both)">
 		  </a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=9." target="iframe"><img src="images/genesis-crt-c.png" alt="Genesis" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=9." target="iframe"><img src="images/genesis-crt-c.png" alt="Genesis"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.249/?cmd=4." target="iframe"><img src="images/xbox360-crt-c.png" alt="360" type="button"></a>
+          <a href="http://192.168.1.249/?cmd=4." target="iframe"><img src="images/xbox360-crt-c.png" alt="360"></a>
         </div>
       </div>
       <div class="flex-item">
         <div class="box">
-          <a href="http://192.168.1.252/?cmd=10." target="iframe"><img src="images/vhs-crt-c.png" alt="VCR" type="button"></a>
+          <a href="http://192.168.1.252/?cmd=10." target="iframe"><img src="images/vhs-crt-c.png" alt="VCR"></a>
         </div>
       </div>
       <div class="flex-item">
@@ -148,10 +154,12 @@
 								'http://192.168.1.249/?cmd=0*!',
 								'http://192.168.1.252/?cmd=0*!'
 								]); return false;">
-				<img src="images/reset-crt-c.png" alt="Reset" type="button">
+				<img src="images/reset-crt-c.png" alt="Reset">
 		  </a>
         </div>
       </div>
+	  
+<!-- End Buttons -->
     </div>
 </body>
 

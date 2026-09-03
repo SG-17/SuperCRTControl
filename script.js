@@ -14,3 +14,10 @@
 		(new Image()).src = url;
 		});
 	}
+	
+	const boxes = document.querySelectorAll('.box');
+	boxes.forEach(box => {
+		box.addEventListener('touchstart', () => box.classList.add('tocuhed'), { passive: true });
+		box.addEventListener('touchend', () => box.classList.remove('touched'));
+		box.addEventListener('touchcancel', () => box.classList.remove('touched'));
+	});
