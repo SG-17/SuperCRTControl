@@ -130,7 +130,7 @@ There are several ways to do this but the simplest is by using the **Default Web
 	* Be sure that `target="iframe"` is ***not*** included in submenu links.  
 	* If your main page is named `index.html` a simple `/` in the `href=` of a link on a submenu page will take you back to the main page.
 
-7. Set the style link on line 7 in the header to match the number of buttons you will use for a subpage.
+7. Set the style link on line 12 in the header to match the number of buttons you will use for a subpage.
    Examples below:
     ```
 	<link href="/css/style12.css" rel="stylesheet">
