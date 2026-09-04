@@ -58,3 +58,65 @@
 	.box.touched {
 		transform: translateY(-5px);box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	}
+	
+    .frontpanel {
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		width: 2.7rem;
+		height: 2.7rem;
+		border-radius: 10%;
+		border: 1px solid rgba(0, 0, 0, .25);
+		background: #00b6f0;
+		color: #111111;
+		font-size: 1.2rem;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 999 !important;
+		line-height: 1;
+		transition: all 0.2s ease;
+    }
+	
+	.frontpanel img {
+		width: 2.4rem;
+		height: 2.4rem;
+		border-radius: 25%;
+		border: 1px solid rgba(0, 0, 0, 0.50);
+	}
+	
+	@media (max-width:600px) {
+	.frontpanel {
+		width: 1.8rem;
+		height: 1.8rem;
+    }
+	
+	.frontpanel img {
+		width: 1.6rem;
+		height: 1.6rem;
+	}
+	}
+	
+	@media (max-width:992px) and (min-width:601px){
+	.frontpanel {
+		width: 1.8rem;
+		height: 1.8rem;
+    }
+	
+	.frontpanel img {
+		width: 1.6rem;
+		height: 1.6rem;
+	}
+	}
+	
+	@media (hover: hover) {
+	.frontpanel:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+	}
+	
+	.frontpanel:active {
+		transform: translateY(5px);
+	}
