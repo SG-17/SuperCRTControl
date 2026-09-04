@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" >
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>Super CRT-C | Front Panel Controller</title>
+	<link rel="icon" type="image/png" href="../favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/png" href="../favicon-192x192.png" sizes="192x192" />
+	<link rel="icon" type="image/png" href="../favicon-512x512.png" sizes="512x512" />
+	<link rel="shortcut icon" href="../favicon.ico" />
+	<link href="../frontpanel/stylepanel.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="main">
+<!-- Remove 'style="display:none;"' to enable manual light/dark theme switching -->
+<button id="themeToggle" title="Toggle dark / light theme" style="display:none;">🌒</button>
+
+<div id="app">
+
+
+
+<div class="top">
+
+<div class="section content">
+	<h1>Front Panel Controller</h1>
+	<label><strong>Device:</strong> <select id="deviceSelect"></select></label>  
+</div>
+
+<div class="header content">
+	<img src="../frontpanel/supercrtc-125.png" class="hide-small hide-medium" /><img src="../frontpanel/supercrtc-small.png" class="hide-large" />
+</div>
+
+</div>
+
+<div class="section">
+	<h3>Inputs</h3>
+	<div class="buttons" id="inputs"></div>
+</div>
+
+<div class="section">
+	<h3>Outputs</h3>
+	<div class="buttons" id="outputs"></div>
+</div>
+
+<div class="section actions">
+	<button id="clearSel" class="action-btn">Clear Selection</button>
+	<button id="execute" class="action-btn" style="background:#1976d2; color:white; border-color:#0d47a1;">Execute Ties</button>
+	<button id="clearAll" class="action-btn" style="background:#d32f2f; color:white; border-color:#b71c1c;">Clear All Ties</button>
+	<button class="action-btn" onclick="window.location.href='../index.html';" style="background:#19d285; color:white; border-color:#0da15c;">Presets</button>
+</div>
+
+<div id="status"></div>
+
+</div>
+
+<iframe name="cmdFrame" style="display:none;"></iframe>
+
+</div>
+</body>
+<script src="../frontpanel/config.js"></script> 
+<script src="../frontpanel/scriptpanel.js"></script> 
+</html>
