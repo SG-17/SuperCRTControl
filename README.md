@@ -126,17 +126,17 @@ There are several ways to do this but the simplest is by using the **Default Web
 
 6. You can link to submenus or second pages for more systems or game specific presets by simply linking to the new page.
    Example below:  
-	* `<a href="/controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>`  
+	* `<a href="controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu" type="button"></a>`  
 	* Be sure that `target="iframe"` is ***not*** included in submenu links.  
 	* If your main page is named `index.html` a simple `/` in the `href=` of a link on a submenu page will take you back to the main page.
 
 7. Set the style link on line 12 in the header to match the number of buttons you will use for a subpage.
    Examples below:
     ```
-	<link href="/css/style12.css" rel="stylesheet">
-	<link href="/css/style16.css" rel="stylesheet">
-	<link href="/css/style20.css" rel="stylesheet">
-	<link href="/css/style32.css" rel="stylesheet">
+	<link href="css/style12.css" rel="stylesheet">
+	<link href="css/style16.css" rel="stylesheet">
+	<link href="css/style20.css" rel="stylesheet">
+	<link href="css/style32.css" rel="stylesheet">
 	```  
     
 8. If you need a button to load a preset on more than one Extron at a time use the following format for the link:  
@@ -150,8 +150,12 @@ There are several ways to do this but the simplest is by using the **Default Web
 	```
   
 9. If you want to make a button that clears all inputs and outputs place `?cmd=0*!` after your Extron's IP in a link.
+
+10. On the Front Panel Controller page you can remove `style="display:none;"` to enable manual light/dark theme switching.
+
+11. If you are not using the Front Panel Controller you can remove or comment out the button on line 63 of the preset control pages.
     
-10. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
+12. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
 
 ## Project Status and Disclaimers
 > This project comes with no guarantees or timetables.
