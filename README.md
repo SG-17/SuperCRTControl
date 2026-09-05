@@ -4,9 +4,9 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 **Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle) and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.
 
-|  |  |  |  |  |
-|     :---:      |     :---:      |     :---:      |     :---:      |     :---:      |
-| [Requirements](#Requirements)   | [Extron Setup](#setting-up-your-extron)  |  [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control)  | [Project Status and Disclaimers](#Project-Status-and-Disclaimers) |[Special Thanks](#Special-thanks) |
+| [Requirements](#Requirements) | [Extron Setup](#setting-up-your-extron) | [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control) |
+|     :---:      |     :---:      |     :---:      | 
+| [Front Panel Setup Guide](#Front-Panel-Controller-Setup-and-Use)   | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)  |  [Special Thanks](#Special-thanks)  | 
 
 <img width="403" height="190" alt="20260829_185446" src="https://github.com/user-attachments/assets/197eb57e-717c-4292-8be0-c54855a0fa25" />
 <img width="148" height="242" alt="20260801_075523" src="https://github.com/user-attachments/assets/e7413a50-80bc-494c-b290-3c645737c92d" />
@@ -108,7 +108,7 @@ There are several ways to do this but the simplest is by using the **Default Web
      
 6. Repeat steps 2 - 5 to create as many presets as you'd like.
 
-## Setup and Use of Super CRT-Control
+## Super CRT-Control Setup and Use
 1. Download the latest [release](https://github.com/SG-17/SuperCRTControl/releases) and extract to the folder that you assigned as the root of your web server.
 
 2. Decide which size button layout will be your home page.
@@ -151,11 +151,27 @@ There are several ways to do this but the simplest is by using the **Default Web
   
 9. If you want to make a button that clears all inputs and outputs place `?cmd=0*!` after your Extron's IP in a link.
 
-10. On the Front Panel Controller page you can remove `style="display:none;"` to enable manual light/dark theme switching.
-
-11. If you are not using the Front Panel Controller you can remove or comment out the button on line 63 of the preset control pages.
+10. If you are not using the Front Panel Controller you can remove or comment out the button on line 63 of the preset control pages.
     
-12. Once you have configured your html code you can start using your Super CRT-Control to control your Extron Matrix Switchers.
+## Front Panel Controller Setup and Use
+
+1. Open the `config.js` file in a markdown editor. 
+
+2. Each of the sections in the outermost brackets `{ }` is the info for a single Extron device.
+
+3. Using the existing examples as a guide fill in your Extron's name, IP, Input/Output size, the directory where profile/console images are kept (if you don't change the file tree it can stay the same), and filenames for images to replace the numerical buttons for input and output.
+
+4. You can add an unlimited number of Extron matrix switchers. 
+
+5. Once you have added all of the devices you want save and close the file. 
+
+6. You can now use the **Front Panel Controller** to do the majority of the function of the Extron Crosspoint's front panel.
+	* You can assign input/output ties, video and audio together or separately.
+	* You can load profiles via the input/output button number.
+
+7. Click on the small button labeled `Preset` next to the Extron selection box to return to the **Super CRT-Control** touch grid.
+
+8. Click on the Sun/Moon button to change between light and dark themes. By default it should load a style matching your browser preferences.
 
 ## Project Status and Disclaimers
 > This project comes with no guarantees or timetables.
