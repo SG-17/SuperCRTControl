@@ -13,43 +13,41 @@
 
 <body>
 <div class="main">
-<!-- Remove 'style="display:none;"' to enable manual light/dark theme switching -->
-<button id="themeToggle" title="Toggle dark / light theme" style="display:none;">🌒</button>
 
 <div id="app">
-
-
-
 <div class="top">
 
 <div class="section content">
 	<h1>Front Panel Controller</h1>
-	<label><strong>Device:</strong> <select id="deviceSelect"></select></label>  
+	<label><strong>Device:</strong> <select id="deviceSelect"></select></label>  <button class="frontpanel" title="Go to Preset Grid" onclick="window.location.href='../index.html';";></button><button class="themebtn" <a id="themeToggle" title="Toggle Dark / Light Theme">🌒</a></button>
 </div>
 
 <div class="header content">
 	<img src="../frontpanel/supercrtc-125.png" class="hide-small hide-medium" /><img src="../frontpanel/supercrtc-small.png" class="hide-large" />
 </div>
-
 </div>
 
 <div class="section">
-	<h3>Inputs</h3>
-	<div class="buttons" id="inputs"></div>
+     <h3>Inputs</h3>
+     <div class="buttons" id="inputs"></div>
 </div>
 
 <div class="section">
-	<h3>Outputs</h3>
-	<div class="buttons" id="outputs"></div>
+    <h3>Outputs</h3>
+    <div class="buttons" id="outputs"></div>
 </div>
 
 <div class="section actions">
-	<button id="clearSel" class="action-btn">Clear Selection</button>
-	<button id="execute" class="action-btn" style="background:#1976d2; color:white; border-color:#0d47a1;">Execute Ties</button>
-	<button id="clearAll" class="action-btn" style="background:#d32f2f; color:white; border-color:#b71c1c;">Clear All Ties</button>
-	<button class="action-btn" onclick="window.location.href='../index.html';" style="background:#19d285; color:white; border-color:#0da15c;">Presets</button>
+    <button id="btnVideo" class="mode-btn on" title="Include video in ties">Video</button>
+    <button id="btnAudio" class="mode-btn on" title="Include audio in ties">Audio</button>
+    <button id="btnPreset" class="mode-btn" title="Click an I/O button to recall that preset">Preset</button>
+    <span style="width:0.5rem;"></span>
+    <button id="clearSel" class="action-btn">Clear Selection</button>
+    <button id="execute" class="action-btn" style="background:#1976d2; color:white; border-color:#0d47a1;">Execute Ties</button>
+    <button id="clearAll" class="action-btn" style="background:#d32f2f; color:white; border-color:#b71c1c;">Clear All Ties</button>
 </div>
 
+<div class="hint" id="modeHint"></div>
 <div id="status"></div>
 
 </div>

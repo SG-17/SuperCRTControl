@@ -1,4 +1,4 @@
-	const COLORS = [
+const COLORS = [
       '#e53935', '#1e88e5', '#43a047', '#fb8c00',
       '#8e24aa', '#00acc1', '#fdd835', '#6d4c41',
     ];
@@ -8,13 +8,16 @@
 
     const deviceStates = {};
     let currentDevice = null;
+    let videoOn  = true;
+    let audioOn  = true;
+    let presetOn = false;
 
     // Theme
     function applyTheme(theme, refresh) {
       document.documentElement.setAttribute('data-theme', theme);
       const btn = document.getElementById('themeToggle');
       btn.textContent = theme === 'dark' ? '☀️' : '🌒';
-      btn.title = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+      btn.title = theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme';
       try { localStorage.setItem(THEME_KEY, theme); } catch (_) {}
       if (refresh && currentDevice) refreshAllVisuals();
     }
@@ -33,6 +36,46 @@
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       applyTheme(current === 'dark' ? 'light' : 'dark', true);
     });
+
+    // Mode buttons
+    function updateModeHint() {
+      const parts = [];
+      if (videoOn && audioOn) parts.push('Video + Audio');
+      else if (videoOn) parts.push('Video Only');
+      else if (audioOn) parts.push('Audio Only');
+      parts.push(presetOn ? '  Preset On — Click an I/O button to recall' : '  Preset Off');
+      document.getElementById('modeHint').textContent = 'Mode: ' + parts.join(' -- ');
+    }
+
+    function syncModeButtons() {
+      document.getElementById('btnVideo').classList.toggle('on', videoOn);
+      document.getElementById('btnAudio').classList.toggle('on', audioOn);
+      document.getElementById('btnPreset').classList.toggle('preset-on', presetOn);
+      updateModeHint();
+    }
+
+    document.getElementById('btnVideo').addEventListener('click', () => {
+      if (videoOn && !audioOn) return;
+      videoOn = !videoOn;
+      syncModeButtons();
+    });
+
+    document.getElementById('btnAudio').addEventListener('click', () => {
+      if (audioOn && !videoOn) return;
+      audioOn = !audioOn;
+      syncModeButtons();
+    });
+
+    document.getElementById('btnPreset').addEventListener('click', () => {
+      presetOn = !presetOn;
+      syncModeButtons();
+    });
+
+    function tieTerminator() {
+      if (videoOn && audioOn) return '!';
+      if (videoOn) return '%'; 
+      return '$';
+    }
 
     // localStorage
     function serializeState(state) {
@@ -106,7 +149,7 @@
       return deviceStates[currentDevice.name];
     }
 
-    // Color Changing
+    // Visuals
     function getButton(containerId, num) {
       return document.querySelector(`#${containerId} button[data-num="${num}"]`);
     }
@@ -182,6 +225,12 @@
       }
     }
 
+    // Preset numbers
+    function presetNumberForButton(isInput, num) {
+      if (isInput) return num;
+      return currentDevice.numInputs + num;
+    }
+
     // Buttons
     function buildButtons() {
       const inputsEl  = document.getElementById('inputs');
@@ -212,8 +261,17 @@
           }
 
           btn.addEventListener('click', () => {
-            const state = getState();
+            if (presetOn) {
+              const pnum = presetNumberForButton(isInput, i);
+              sendCommand(pnum + '.');
+              document.getElementById('status').textContent +=
+                `\n(Recalled preset ${pnum} via ${isInput ? 'input' : 'output'} ${i})`;
+              presetOn = false;
+              syncModeButtons();
+              return;
+            }
 
+            const state = getState();
             if (isInput) {
               if (state.pendingInput === i) {
                 state.pendingInput = null;
@@ -228,7 +286,9 @@
               if (state.pendingOutputs.has(i)) {
                 state.pendingOutputs.delete(i);
               } else {
-                removeOutputFromCommitted(i);
+                if (videoOn && audioOn) {
+                  removeOutputFromCommitted(i);
+                }
                 state.pendingOutputs.add(i);
               }
             }
@@ -245,7 +305,7 @@
       refreshAllVisuals();
     }
 
-    // Matrix switching
+    // Device switching
     function switchDevice(name) {
       currentDevice = DEVICES.find(d => d.name === name);
       if (!currentDevice) return;
@@ -275,23 +335,38 @@
     });
 
     document.getElementById('execute').addEventListener('click', () => {
+      if (presetOn) {
+        alert('Turn off Preset mode to create ties.');
+        return;
+      }
       const state = getState();
       if (state.pendingInput === null || state.pendingOutputs.size === 0) {
         alert('Select one input and at least one output');
         return;
       }
 
+      const term = tieTerminator();
       let cmd = '';
       for (const out of state.pendingOutputs) {
-        cmd += `${state.pendingInput}*${out}!`;
+        cmd += `${state.pendingInput}*${out}${term}`;
       }
       sendCommand(cmd);
 
-      state.committed.delete(state.pendingInput);
-      state.committed.set(state.pendingInput, {
-        outputs: new Set(state.pendingOutputs),
-        color: state.pendingColor,
-      });
+      if (videoOn && audioOn) {
+        state.committed.delete(state.pendingInput);
+        for (const out of state.pendingOutputs) removeOutputFromCommitted(out);
+        state.committed.set(state.pendingInput, {
+          outputs: new Set(state.pendingOutputs),
+          color: state.pendingColor,
+        });
+      } else {
+        let entry = state.committed.get(state.pendingInput);
+        if (!entry) {
+          entry = { outputs: new Set(), color: state.pendingColor };
+          state.committed.set(state.pendingInput, entry);
+        }
+        state.pendingOutputs.forEach(o => entry.outputs.add(o));
+      }
 
       state.pendingInput = null;
       state.pendingOutputs.clear();
@@ -311,6 +386,7 @@
 
     initTheme();
     loadAllStates();
+    syncModeButtons();
 
     const select = document.getElementById('deviceSelect');
     DEVICES.forEach(d => {
