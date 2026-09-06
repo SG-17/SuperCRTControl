@@ -26,7 +26,7 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
   * Raspberry Pi (even something as lightweight as the Zero W will work)
 > [!TIP]
 > If you intend for this device to run 24/7 a Linux-based device is a better choice than a Windows PC.
-* Web server application of your choice
+* Web server application of your choice (python3 is my favorite)
   * [nginx](https://github.com/nginx/nginx)
   * [python3](https://docs.python.org/3/library/http.server.html)
   * [SimpleWebServer](https://simplewebserver.org/)
