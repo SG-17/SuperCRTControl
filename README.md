@@ -47,7 +47,7 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 | BNC/RCA | VGA/DVI/HDMI |
 |     :---:      |     :---:      |
 | Crosspoint 300 Series†  | MVX Series† |
-| Crosspoint 450 Series  | MVX Plus 128 |
+| Crosspoint 450 Series  | MVX Plus Series |
 | Crosspoint Ultra Series  | DXP DVI Pro Series |
 | MAV Plus Series  | DXP HDMI Series |
     
