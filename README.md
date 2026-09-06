@@ -38,10 +38,14 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
   * [Nextpad++](https://nextpad.org/)
     
 * A supported Extron Matrix Switcher
-  * Extron Crosspoint MAV Plus, 450 Plus, Ultra
-  * Extron DXP DVI, DXP HDMI, HD 4K, HD 4K Plus
-  * Extron MVX VGA
-  * Potentially other Extrons and other brands; a switch that can load presets via a web app will likely work if the command format can be discovered.
+  * † - Extron IP Link device required (like the IPLT S2)
+  * Unfortunately the newer DXP HD 4K, HD 4K Plus, and 8K HDMI Matrices are not compatible at this time.
+  | BNC/RCA | VGA | HDMI/DVI |
+|     :---:      |     :---:      |     :---:      | 
+| Crosspoint 300 Series†  | MVX Series† |  DXP HDMI Series  |
+| Crosspoint 450 Series  | MVX Plus 128 |  DXP DVI Pro Series  |
+| Crosspoint Ultra Series  | ~ |  DXP HDMI 84  |
+| MAV Plus Series  | ~ | ~ |
     
 * Your Extron wired to your local network via ethernet and setup with a [static IP](https://github.com/SG-17/SuperCRTControl/tree/main#ip-address-setup).
   * You can find instructions by searching for your Extron device and reading the user manual, for example [this](https://media.extron.com/public/download/files/userman/68-521-50_C.pdf) is the manual for the 450 and Ultra.
