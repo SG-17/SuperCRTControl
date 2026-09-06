@@ -48,7 +48,7 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 |     :---:      |     :---:      |     :---:      | 
 | Crosspoint 300 Series†  | MVX Series† |  DXP HDMI Series  |
 | Crosspoint 450 Series  | MVX Plus 128 |  DXP DVI Pro Series  |
-| Crosspoint Ultra Series  | ~ |  DXP HDMI 84  |
+| Crosspoint Ultra Series  | ~ |  ~  |
 | MAV Plus Series  | ~ | ~ |
     
 * Your Extron wired to your local network via ethernet and setup with a [static IP](https://github.com/SG-17/SuperCRTControl/tree/main#ip-address-setup).
