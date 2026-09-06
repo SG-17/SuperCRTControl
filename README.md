@@ -4,7 +4,9 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 **Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle) and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.  
 
-You can see a demo [here](https://retrogaming.swbfii.com/).
+You can see a demo [here](https://retrogaming.swbfii.com/).  
+
+[Supported devices.](#A-supported-Extron-Matrix-Switcher)
 
 | [Requirements](#Requirements) | [Extron Setup](#setting-up-your-extron) | [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control) |
 |     :---:      |     :---:      |     :---:      | 
@@ -37,7 +39,7 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
   * [Kate](https://kate-editor.org/)
   * [Nextpad++](https://nextpad.org/)
     
-* A supported Extron Matrix Switcher
+# A supported Extron Matrix Switcher
   * † - Extron IP Link device required (like the IPLT S2)
   * Unfortunately the newer DXP HD 4K, HD 4K Plus, and 8K HDMI Matrices are not compatible at this time.
     
