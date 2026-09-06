@@ -39,7 +39,7 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
   * [Kate](https://kate-editor.org/)
   * [Nextpad++](https://nextpad.org/)
     
-# A supported Extron Matrix Switcher
+### A supported Extron Matrix Switcher
   * † - Extron IP Link device required (like the IPLT S2)
   * Unfortunately the newer DXP HD 4K, HD 4K Plus, and 8K HDMI Matrices are not compatible at this time.
     
