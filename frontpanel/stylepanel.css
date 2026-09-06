@@ -88,8 +88,8 @@
     }
 
     button.io img {
-		max-width: 100%;
-		max-height: 100%;
+		max-width: 90%;
+		max-height: 90%;
 		object-fit: contain;
 		pointer-events: none;
     }
@@ -128,6 +128,21 @@
 	.action-btn:active, .mode-btn:active {
 		transform: translateY(2px);
 	}
+	
+	.action-btn:disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+    }
+
+    .slow-blink {
+		animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    .mode-btn.save-on {
+		background: #6a1b9a !important;
+		color: #fff !important;
+		border-color: #4a148c !important;
+    }
 
     [data-theme="dark"] .action-btn,
     [data-theme="dark"] .mode-btn {
@@ -214,7 +229,7 @@
 		padding: 0.35rem 0.6rem;
 		transition: all 0.2s ease;
 		margin-right: .05rem;
-		background-image: url("../frontpanel/extronface-preset.png");
+		background-image: url("images/extronface-preset.png");
 		background-size: cover;
 		line-height: 1;
     }
