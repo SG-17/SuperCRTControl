@@ -40,7 +40,8 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 * A supported Extron Matrix Switcher
   * † - Extron IP Link device required (like the IPLT S2)
   * Unfortunately the newer DXP HD 4K, HD 4K Plus, and 8K HDMI Matrices are not compatible at this time.
-  | BNC/RCA | VGA | HDMI/DVI |
+    
+| BNC/RCA | VGA | HDMI/DVI |
 |     :---:      |     :---:      |     :---:      | 
 | Crosspoint 300 Series†  | MVX Series† |  DXP HDMI Series  |
 | Crosspoint 450 Series  | MVX Plus 128 |  DXP DVI Pro Series  |
