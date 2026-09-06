@@ -44,12 +44,12 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
   * † - Extron IP Link device required (like the IPLT S2)
   * Unfortunately the newer DXP HD 4K, HD 4K Plus, and 8K HDMI Matrices are not compatible at this time.
     
-| BNC/RCA | VGA | HDMI/DVI |
-|     :---:      |     :---:      |     :---:      | 
-| Crosspoint 300 Series†  | MVX Series† |  DXP HDMI Series  |
-| Crosspoint 450 Series  | MVX Plus 128 |  DXP DVI Pro Series  |
-| Crosspoint Ultra Series  | ~ |  ~  |
-| MAV Plus Series  | ~ | ~ |
+| BNC/RCA | VGA/DVI/HDMI |
+|     :---:      |     :---:      |
+| Crosspoint 300 Series†  | MVX Series† |
+| Crosspoint 450 Series  | MVX Plus 128 |
+| Crosspoint Ultra Series  | DXP DVI Pro Series |
+| MAV Plus Series  | DXP HDMI Series |
     
 * Your Extron wired to your local network via ethernet and setup with a [static IP](https://github.com/SG-17/SuperCRTControl/tree/main#ip-address-setup).
   * You can find instructions by searching for your Extron device and reading the user manual, for example [this](https://media.extron.com/public/download/files/userman/68-521-50_C.pdf) is the manual for the 450 and Ultra.
