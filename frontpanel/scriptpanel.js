@@ -37,6 +37,38 @@ function initTheme() {
   applyTheme(theme, false);
 }
 
+function fullscreen() {
+    var el = document.documentElement
+    , rfs = // for newer Webkit and Firefox
+       el.requestFullScreen
+    || el.webkitRequestFullScreen
+    || el.mozRequestFullScreen
+    || el.msRequestFullScreen
+    ;
+
+    if(typeof rfs!="undefined" && rfs){
+
+        rfs.call(el);
+
+    } else if(typeof window.ActiveXObject!="undefined"){
+
+        // for Internet Explorer
+        var wscript = new ActiveXObject("WScript.Shell");
+
+        if (wscript!=null) {
+          wscript.SendKeys("{F11}");
+        }
+    }
+
+}
+
+if (window.self !== window.top) {
+    document.documentElement.classList.add('in-iframe');
+}
+if (window.self == window.top) {
+    document.documentElement.classList.add('not-in-iframe');
+}
+
 // Mode Text
 function updateModeHint() {
   const el = document.getElementById('modeHint');

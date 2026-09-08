@@ -13,13 +13,17 @@
 
 <body>
 <div class="main">
+<span class="fullscreen" title="Full Screen" id="iframehide" onclick="fullscreen();">⛶</span>
 
 <div id="app">
 <div class="top">
 
 <div class="section content">
 	<h1>Front Panel Controller</h1>
-	<label><strong>Device:</strong> <select id="deviceSelect"></select></label>  <button class="frontpanel" title="Go to Preset Grid" onclick="window.location.href='../index.html'"></button><button class="themebtn"><a id="themeToggle" title="Toggle Dark / Light Theme">🌒</a></button>
+	<label><strong>Device:</strong> <select id="deviceSelect"></select></label> 
+	<button class="frontpanel" id="iframehide" title="Go to Preset Grid" onclick="window.location.href='../home.html'">
+	<button class="frontpanel" id="notiframehide" title="Go to Preset Grid" onclick="window.location.href='../index.html'"></button>
+	<button class="themebtn"><a id="themeToggle" title="Toggle Dark / Light Theme">🌒</a></button>
 </div>
 
 <div class="header content">
