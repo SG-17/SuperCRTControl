@@ -123,7 +123,7 @@ There are several ways to do this but the simplest is by using the **Default Web
 1. Download the latest [release](https://github.com/SG-17/SuperCRTControl/releases) and extract to the folder that you assigned as the root of your web server.
 
 2. Decide which size button layout will be your home page.
-   If you are using a size other than 16 delete or rename the `index.html` in the .zip, make a copy of the .html file that matches the size you want(such as `control12.html`), rename it to `index.html`, and open it in your text editor of choice.
+   If you are using a size other than 16 delete or rename the `home.html` in the .zip, make a copy of the .html file that matches the size you want(such as `control12.html`), rename it to `home.html`, and open it in your text editor of choice.
 
 3. Set your command links by entering the static IP Address(es) of your Extron Matrix Switcher(s) that you use to access the web control menu, followed by `?cmd=#.`.   
  	* Replace the `#` with the number of the preset on the Extron that the link will be loading. The period (`.`) at the end is necessary, do not delete it.
