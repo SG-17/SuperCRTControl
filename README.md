@@ -4,7 +4,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 **Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle), a [Retro-Bridge](https://github.com/SolidPIPe/retro-bridge/tree/main) (soon), and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.  
 
-| [Requirements](https://github.com/SG-17/SuperCRTControl/edit/main/README.md#requirements) | [Extron Setup](#setting-up-your-extron) | [Installation](https://github.com/SG-17/SuperCRTControl/edit/main/README.md#installation) | [Project Status](https://github.com/SG-17/SuperCRTControl/edit/main/README.md#project-status-and-disclaimers) |
+| [Requirements](#requirements) | [Extron Setup](#setting-up-your-extron) | [Installation](#installation) | [Project Status](#project-status-and-disclaimers) |
 |     :---:      |     :---:      |     :---:      |     :---:      | 
 
 
