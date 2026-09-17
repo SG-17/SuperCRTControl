@@ -2,15 +2,11 @@
 
 A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE Touchscreen-Control"](https://shmups.system11.org/viewtopic.php?t=69630) web app designed to be hosted on a dedicated local web server rather than the Extrons themselves. Allows for control of a virtually unlimited number of Extron Crosspoint Matrix Switchers with no limit on file sizes, page depth, or image quality on any web capable device on your local network such as an old tablet or your phone. Crosspoints have a meager amount of file storage that one will quickly find themselves running up against if they have a large number of inputs and outputs in use. **Super CRT-Control** is designed to alleviate that.  
 
-**Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle) and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.  
+**Super CRT-Control** can be used in combination with the [DonutDongle](https://github.com/svirant/DonutDongle), a [Retro-Bridge](https://github.com/SolidPIPe/retro-bridge/tree/main) (soon), and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.  
 
-You can see a demo [here](https://retrogaming.swbfii.com/).  
+| [Requirements](https://github.com/SG-17/SuperCRTControl/edit/main/README.md#requirements) | [Extron Setup](#setting-up-your-extron) | [Installation](https://github.com/SG-17/SuperCRTControl/edit/main/README.md#installation) | [Project Status](https://github.com/SG-17/SuperCRTControl/edit/main/README.md#project-status-and-disclaimers) |
+|     :---:      |     :---:      |     :---:      |     :---:      | 
 
-[Supported devices.](#A-supported-Extron-Matrix-Switcher)
-
-| [Requirements](#Requirements) | [Extron Setup](#setting-up-your-extron) | [Super CRT-Control Setup Guide](#setup-and-use-of-super-crt-control) |
-|     :---:      |     :---:      |     :---:      | 
-| [Front Panel Setup Guide](#Front-Panel-Controller-Setup-and-Use)   | [Project Status and Disclaimers](#Project-Status-and-Disclaimers)  |  [Special Thanks](#Special-thanks)  | 
 
 <img width="403" height="190" alt="20260829_185446" src="https://github.com/user-attachments/assets/197eb57e-717c-4292-8be0-c54855a0fa25" />
 <img width="148" height="242" alt="20260801_075523" src="https://github.com/user-attachments/assets/e7413a50-80bc-494c-b290-3c645737c92d" />
@@ -26,9 +22,9 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
   * Raspberry Pi (even something as lightweight as the Zero W will work)
 > [!TIP]
 > If you intend for this device to run 24/7 a Linux-based device is a better choice than a Windows PC.
-* Web server application of your choice (python3 is my favorite)
+* Web server application of your choice (python3 is my favorite)  
   * [nginx](https://github.com/nginx/nginx)
-  * [python3](https://docs.python.org/3/library/http.server.html)
+  * [python3](https://docs.python.org/3/library/http.server.html)‡ - required for Advanced Install and Stream Deck Integration
   * [SimpleWebServer](https://simplewebserver.org/)
   * [Apache](https://httpd.apache.org/)
   * [Windows IIS](https://www.iis.net/)
@@ -42,7 +38,7 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
     
 ### A supported Extron Matrix Switcher
   * † - Extron IP Link device required (like the IPLT S2)
-  * Unfortunately the newer DXP HD 4K, HD 4K Plus, and 8K HDMI Matrices are not compatible at this time.
+  * ‡ - Only compatible with Advanced Install
     
 | BNC/RCA | VGA/DVI/HDMI |
 |     :---:      |     :---:      |
@@ -50,6 +46,8 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 | Crosspoint 450 Series  | MVX Plus Series |
 | Crosspoint Ultra Series  | DXP DVI Pro Series |
 | MAV Plus Series  | DXP HDMI Series |
+|  | DXP HD 4K Series‡ |
+|  | DXP HD 4K Plus Series‡ |
     
 * Your Extron wired to your local network via ethernet and setup with a [static IP](https://github.com/SG-17/SuperCRTControl/tree/main#ip-address-setup).
   * You can find instructions by searching for your Extron device and reading the user manual, for example [this](https://media.extron.com/public/download/files/userman/68-521-50_C.pdf) is the manual for the 450 and Ultra.
@@ -119,6 +117,12 @@ There are several ways to do this but the simplest is by using the **Default Web
      
 6. Repeat steps 2 - 5 to create as many presets as you'd like.
 
+## Installation 
+<details>
+<summary>README for Basic Install</summary> 
+
+You can see a demo [here](https://retrogaming.swbfii.com/).  
+
 ## Super CRT-Control Setup and Use
 1. Download the latest [release](https://github.com/SG-17/SuperCRTControl/releases) and extract to the folder that you assigned as the root of your web server.
 
@@ -183,6 +187,17 @@ There are several ways to do this but the simplest is by using the **Default Web
 7. Click on the small button labeled `Preset` next to the Extron selection box to return to the **Super CRT-Control** touch grid.
 
 8. Click on the Sun/Moon button to change between light and dark themes. By default it should load a style matching your browser preferences.
+</details>  
+
+<details>
+<summary>README for Advanced Install</summary>
+	Coming Soon
+</details>  
+
+<details>
+<summary>README for Stream Deck Integration</summary>
+	Coming Soon
+</details> 
 
 ## Project Status and Disclaimers
 > This project comes with no guarantees or timetables.
