@@ -117,8 +117,6 @@ There are several ways to do this but the simplest is by using the **Default Web
      
 6. Repeat steps 2 - 5 to create as many presets as you'd like.
 
-***
-
 ## Installation 
 <details>
 <summary>README for Basic Install</summary> 
