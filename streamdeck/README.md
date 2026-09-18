@@ -71,7 +71,7 @@ Type=simple
 User={YOURUSERNAME}
 Group={YOURUSERNAME}
 WorkingDirectory=/home/{YOURUSERNAME}/supercrt/streamdeck
-ExecStart=/home/{YOURUSERNAME}supercrt/streamdeck/venv/bin/python /home/{YOURUSERNAME}/supercrt/streamdeck/streamdeck.py
+ExecStart=/home/{YOURUSERNAME}/supercrt/streamdeck/venv/bin/python /home/{YOURUSERNAME}/supercrt/streamdeck/streamdeck.py
 Restart=on-failure
 RestartSec=20
 
