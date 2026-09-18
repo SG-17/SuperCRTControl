@@ -1,3 +1,7 @@
+Linux Debian/Ubuntu Based
+
+If using a microcomputer like a Raspberry Pi install Raspberry Pi OS full desktop for Pi 4 (2GB+) and Pi 5; Lite for Pi Zero 2 W, Pi 4 (1GB), and Pi 3). For OrangePi install Armbian, Desktop or Minimal depending on your hardware.
+
 sudo apt update
 sudo apt upgrade -y
 
@@ -19,6 +23,10 @@ python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install streamdeck requests pillow
+
+sudo nano ~/supercrt/streamdeck/streamdeck.py
+Update the IP and PORT on line 15 to match your Super CRT-Control web server install and configure your buttons starting on line 30.
+If you are a masochist you can manually use nano for this in a terminal, but I'd recommend using a desktop environment in Linux or editing them on another machine and copying the files over (you can open an ssh via PuTTY or something on another machine and quickly copy the contents over in nano too).
 
 cd ~/supercrt/streamdeck
 source venv/bin/activate
@@ -51,3 +59,12 @@ sudo systemctl status streamdeck
 
 
 sudo systemctl restart streamdeck
+
+
+Windows 10/11
+
+Install the official Stream Deck software.
+Use the Website key under System.
+Place the alias url you want in "URL:".
+Set the dropdown to "GET request in background".
+Change the icon to what you want.
