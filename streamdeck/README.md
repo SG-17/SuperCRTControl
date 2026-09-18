@@ -41,7 +41,7 @@ pip install --upgrade pip
 pip install streamdeck requests pillow
 ```
 
-Update the IP and PORT on line 15 to match your Super CRT-Control web server install and configure your buttons starting on line 30.  
+Update the IP and PORT on line 15 to match your Super CRT-Control web server install and configure your buttons starting on line 30 using the alias URLs you set up during the main Super CRT-Control install.  
 If you are a masochist you can manually use nano for this in a terminal, but I'd recommend using a desktop environment in Linux or editing them on another machine and copying the files over (you can open an ssh via PuTTY or something on another machine and quickly copy the contents over in nano too).
 ```
 sudo nano ~/supercrt/streamdeck/streamdeck.py
@@ -60,7 +60,7 @@ sudo nano /etc/systemd/system/streamdeck.service
 ```
 
 Change `{YOURUSERNAME}` to, you guessed it, your username on Linux. On a basic Raspberry Pi OS install this might just be `pi`.  
-Copy and paste the edited version into the opened `streamdeck.service` file, CTRL+X and then press Y to save.
+Copy and paste the edited version into the opened `streamdeck.service` file, Ctrl+X and then press Y to save.
 ```
 [Unit]
 Description=Super CRT Stream Deck Remote
@@ -95,7 +95,7 @@ Now if everything is running correctly your Stream Deck should now be populated 
 ## Windows 10/11
 Considering that the official Stream Deck software supports background GET requests and folders I don't see the point is creating a custom program for Windows. 
 
-* Install the official Stream Deck software.
+* Install the [official Stream Deck software](https://www.elgato.com/us/en/s/stream-deck-app).
 * Use the Website key under System.
 * Place the alias url you want in "URL:".
 * Set the dropdown to "GET request in background".
