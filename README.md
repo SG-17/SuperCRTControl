@@ -19,7 +19,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 * Hardware to host a local web server
   * Windows PC
   * Linux PC
-  * Raspberry Pi (even something as lightweight as the Zero W will work)
+  * Raspberry Pi (even something as lightweight as the Zero 2 W will work)
 > [!TIP]
 > If you intend for this device to run 24/7 a Linux-based device is a better choice than a Windows PC.
 * Web server application of your choice (python3 is my favorite)  
