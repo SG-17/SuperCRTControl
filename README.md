@@ -190,8 +190,88 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 </details>  
 
 <details>
-<summary>README for Advanced Install</summary>
-	Coming Soon
+<summary>README for Advanced Install</summary>  
+
+## Linux Debian/Ubuntu
+
+Open Terminal/Connect via ssh  
+Run the basic update
+```
+sudo apt update
+sudo apt upgrade -y
+```
+
+Install python, git, and the desktop integration utilities
+```
+sudo apt install -y python3 python3-pip git xdg-utils
+```
+
+Clone the repository to your machine and test that `server.py` runs. Ctrl+C to close the program when running in a terminal.
+```
+git clone https://github.com/SG-17/SuperCRTControl.git ~/supercrt
+cd ~/supercrt
+python3 server.py
+```
+
+Edit your .html files, aliases.json, frontpanel/config.js, streamdeck/streamdeck.py files as needed for your setup
+If you are a masochist you can manually use nano for this in a terminal, but I'd recommend using a desktop environment in Linux or editing them on another machine and copying the files over (you can open an ssh via PuTTY or something on another machine and quickly copy the contents over in nano too).  
+
+Now we will create the service to run Super CRT-Control in the background and on every boot.
+```
+sudo nano /etc/systemd/system/supercrt.service
+```
+
+Update `{YOURUSERNAME}` to, well, your username and paste into the file opened above. Ctrl+X and then press Y to save.
+```
+[Unit]
+Description=Super CRT-Control
+After=network.target
+
+[Service]
+Type=simple
+User={YOURUSERNAME}
+WorkingDirectory=/home/{YOURUSERNAME}/supercrt
+ExecStart=/usr/bin/python3 -u /home/{YOURUSERNAME}/supercrt/server.py
+Restart=always
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Reload the system service daemon, enable the Stream Deck Controller program, and check its status to see if its running correctly.
+```
+sudo systemctl daemon-reload
+sudo systemctl enable --now supercrt
+sudo systemctl status supercrt
+```
+
+If you need to make changes to `server.py` run this to apply them. Changes to .html, .css, .js, and .json files should apply automatically.
+```
+sudo systemctl restart supercrt
+```
+
+## Windows 10/11
+
+Open PowerShell
+Enter the following to install python.
+```
+winget install -e --id Python.Python.3.12 --accept-package-agreements --accept-source-agreements
+```
+
+Installing git and cloning is optional, you can copy manually from the .zip in Releases.
+```
+winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
+git clone https://github.com/SG-17/SuperCRTControl.git c:\SuperCRTControl
+```
+
+Go to `c:\SuperCRTControl`  
+Edit your .html files, aliases.json, frontpanel/config.js, etc files as needed for your setup.
+
+Press `WIN+R` to open Run
+Type in `shell:startup`
+
+Add a shortcut to `server.bat` in `c:\SuperCRTControl` here to run the program at every startup. 
 </details>  
 
 <details>
