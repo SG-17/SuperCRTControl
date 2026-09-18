@@ -117,6 +117,8 @@ There are several ways to do this but the simplest is by using the **Default Web
      
 6. Repeat steps 2 - 5 to create as many presets as you'd like.
 
+***
+
 ## Installation 
 <details>
 <summary>README for Basic Install</summary> 
@@ -188,6 +190,8 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 
 8. Click on the Sun/Moon button to change between light and dark themes. By default it should load a style matching your browser preferences.
 </details>  
+
+***
 
 <details>
 <summary>README for Advanced Install</summary>  
@@ -273,6 +277,8 @@ Type in `shell:startup`
 
 Add a shortcut to `server.bat` in `c:\SuperCRTControl` here to run the program at every startup. 
 </details>  
+
+***
 
 <details>
 <summary>README for Stream Deck Integration</summary>  
@@ -381,6 +387,8 @@ Considering that the official Stream Deck software supports background GET reque
 * Set the dropdown to "GET request in background".
 * Change the icon to what you want.
 </details> 
+
+***
 
 ## Project Status and Disclaimers
 > This project comes with no guarantees or timetables.
