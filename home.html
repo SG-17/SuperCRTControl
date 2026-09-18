@@ -58,6 +58,15 @@
 	********************
 	
 	If you need assistance please ask SG-17 on the RetroTink Discord https://discord.com/invite/jE6deAhjCM
+	
+	data-transport="tcp"
+	
+	<a href="#" onclick="multiCmd([
+  'http://192.168.1.252/?cmd=7.',
+  { url: 'http://192.168.1.248/?cmd=5.', transport: 'tcp' }
+]); return false;">
+  <img …>
+</a>
 -->
 <body>
 <img src="favicon-96x96.png" class="frontpanel" title="Control Panel" onclick="window.location.href='frontpanel/index.html';" /> <!-- Remove/comment out if not using the Front Panel Controller --> 
@@ -73,7 +82,7 @@
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu"></a>
+			<a href="ps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu"></a>
         </div>
     </div>
     <div class="flex-item">
@@ -81,16 +90,6 @@
 			<a href="http://192.168.1.252/?cmd=3." target="iframe1"><img src="images/ps3-crt-c.png" alt="PS3 Component"></a>
         </div>
     </div>
-    <div class="flex-item">
-        <div class="box">
-			<a href="http://192.168.1.249/?cmd=1." target="iframe1"><img src="images/ps3hd-crt-c.png" alt="PS3 HDMI"></a>
-        </div>
-    </div>
-    <div class="flex-item">
-        <div class="box">
-			<a href="http://192.168.1.249/?cmd=3." target="iframe1"><img src="images/pstv-crt-c.png" alt="PSTV"></a>
-        </div>
-    </div>	  
     <div class="flex-item">
 		<div class="box">
 			<a href="http://192.168.1.252/?cmd=4." target="iframe1"><img src="images/nes-crt-c.png" alt="NES"></a>
@@ -143,19 +142,30 @@
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.249/?cmd=4." target="iframe1"><img src="images/xbox360-crt-c.png" alt="360"></a>
+			<a href="http://192.168.1.252/?cmd=10." target="iframe1"><img src="images/vhs-crt-c.png" alt="VCR"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=10." target="iframe1"><img src="images/vhs-crt-c.png" alt="VCR"></a>
+			<a href="hdmi.html"><img src="images/hdmi.png" alt="HDMI Submenu"></a>
+        </div>
+    </div>
+    <div class="flex-item">
+        <div class="box">
+			<a href="#" target="iframe1"><img src="images/blank-crt-c.png" alt=""></a>
+        </div>
+    </div>
+    <div class="flex-item">
+        <div class="box">
+			<a href="#"><img src="images/blank-crt-c.png" alt=""></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
 			<a href="#" onclick="multiCmd([
 								'http://192.168.1.249/?cmd=0*!',
-								'http://192.168.1.252/?cmd=0*!'
+								'http://192.168.1.252/?cmd=0*!',
+								{ url: 'http://192.168.1.248/?cmd=0*!', transport: 'tcp' }
 								]); return false;">
 				<img src="images/reset-crt-c.png" alt="Reset">
 			</a>

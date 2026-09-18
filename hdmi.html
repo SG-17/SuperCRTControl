@@ -3,13 +3,13 @@
 <head>
 	<meta charset="UTF-8" >
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<title>Super CRT-Control 12</title>
+	<title>Super CRT-Control HDMI</title>
 	<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
 	<link rel="icon" type="image/png" href="favicon-192x192.png" sizes="192x192" />
 	<link rel="icon" type="image/png" href="favicon-512x512.png" sizes="512x512" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="css/stylecore.css" rel="stylesheet">
-    <link href="css/style12.css" rel="stylesheet">
+    <link href="css/style16.css" rel="stylesheet">
 </head>
 <!--
 	CRT-Control created by Dochartaigh of shmups forum.
@@ -23,7 +23,7 @@
 	Replace the # with the number of the profile on the Extron that the link will be loading. The period (.) at the end is necessary, do not delete it.
 	Change the image link to the matching image you desire and the alt text to match.
 	Example below:
-				<a href="http://192.168.1.252/?cmd=1." target="iframe"><img src="images/psx-crt-c.png" alt="PS2"></a>
+				<a href="http://192.168.1.252/?cmd=1." target="iframe1"><img src="images/psx-crt-c.png" alt="PS2"></a>
 				
 	*********************
 	
@@ -31,7 +31,7 @@
 	Example below:
 				<a href="controlps2.html"><img src="images/ps2-crt-c.png" alt="PS2 Submenu"></a>
 				
-	Be sure that 'target="iframe"' is not included in submenu links.
+	Be sure that 'target="iframe1"' is not included in submenu links.
 	If your main page is named "index.html" a simple "/" in the href= of a link on a submenu page will take you back to the main page.
 	
 	Set the style link on line 12 in the header to match the number of buttons you will use for a subpage.
@@ -57,6 +57,15 @@
 	
 	********************
 	
+		data-transport="tcp"
+	
+	<a href="#" onclick="multiCmd([
+  'http://192.168.1.252/?cmd=7.',
+  { url: 'http://192.168.1.248/?cmd=5.', transport: 'tcp' }
+]); return false;">
+  <img …>
+</a>
+	
 	If you need assistance please ask SG-17 on the RetroTink Discord https://discord.com/invite/jE6deAhjCM
 -->
 <body>    
@@ -69,62 +78,98 @@
 	
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.249/?cmd=1." target="iframe1"><img src="images/ps3-crt-c.png" alt="PS3"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.249/?cmd=2." target="iframe1"><img src="images/ps4-crt-c.png" alt="PS4"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.249/?cmd=3." target="iframe1"><img src="images/pstv-crt-c.png" alt="PSTV"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.248/?cmd=1." data-transport="tcp" target="iframe1"><img src="images/ps5-crt-c.png" alt="PS5"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.249/?cmd=4." target="iframe1"><img src="images/xbox360-crt-c.png" alt="360"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.248/?cmd=2." data-transport="tcp" target="iframe1"><img src="images/xsx-crt-c.png" alt="XSX"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=5.',
+								'http://192.168.1.252/?cmd=7.'
+								]); return false;">
+					<img src="images/gamecube-crt-c.png" alt="NGC (both)">
+			</a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=6.',
+								'http://192.168.1.252/?cmd=12.'
+								]); return false;">
+				<img src="images/gbp-crt-c.png" alt="GBI (both)">
+			</a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.249/?cmd=7." target="iframe1"><img src="images/nsw-crt-c.png" alt="Switch"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.248/?cmd=3." data-transport="tcp" target="iframe1"><img src="images/nsw2-crt-c.png" alt="Switch 2"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="http://192.168.1.248/?cmd=4." data-transport="tcp" target="iframe1"><img src="images/4kpro-crt-c.png" alt="RetroTink"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" target="iframe"><img src="images/blank-crt-c.png" alt=""></a>
+			<a href="#" target="iframe1"><img src="images/blank-crt-c.png" alt=""></a>
+        </div>
+    </div>
+    <div class="flex-item">
+        <div class="box">
+			<a href="home.html"><img src="images/back-crt-c.png" alt="Back"></a>
+        </div>
+    </div>
+    <div class="flex-item">
+        <div class="box">
+			<a href="#" target="iframe1"><img src="images/blank-crt-c.png" alt=""></a>
+        </div>
+    </div>
+    <div class="flex-item">
+        <div class="box">
+			<a href="#" target="iframe1"><img src="images/blank-crt-c.png" alt=""></a>
+        </div>
+    </div>
+	<div class="flex-item">
+        <div class="box">
+			<a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=0*!',
+								'http://192.168.1.252/?cmd=0*!',
+								{ url: 'http://192.168.1.248/?cmd=0*!', transport: 'tcp' }
+								]); return false;">
+				<img src="images/reset-crt-c.png" alt="Reset">
+			</a>
         </div>
     </div>
 	
@@ -132,7 +177,7 @@
 </div>
 </body>
   
-<iframe name="iframe" style="display:none"></iframe>
+<iframe name="iframe1" style="display:none"></iframe>
 <script src="script.js"></script>  
 
 </html>

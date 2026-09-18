@@ -1,0 +1,174 @@
+{
+  "ps1": {
+    "description": "PS1 on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "1.", "transport": "http" }
+    ]
+  },
+  "ps2": {
+    "description": "PS2 on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "2.", "transport": "http" }
+    ]
+  },
+   "gste": {
+    "description": "Godzilla STE on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "15.", "transport": "http" }
+    ]
+  },
+   "kong": {
+    "description": "King Kong on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "19.", "transport": "http" }
+    ]
+  },
+   "socomca": {
+    "description": "SOCOM CA on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "16.", "transport": "http" }
+    ]
+  },
+   "swbf": {
+    "description": "SWBF on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "17.", "transport": "http" }
+    ]
+  },
+   "swbf2": {
+    "description": "SWBF2 on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "18.", "transport": "http" }
+    ]
+  },
+  "ps3": {
+    "description": "PS3 on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "3.", "transport": "http" }
+    ]
+  },
+  "ps3hd": {
+    "description": "PS3 on DXP",
+    "actions": [
+      { "ip": "192.168.1.249", "cmd": "1.", "transport": "http" }
+    ]
+  },
+  "ps4": {
+    "description": "PS4 on DXP",
+    "actions": [
+      { "ip": "192.168.1.249", "cmd": "2.", "transport": "http" }
+    ]
+  },
+  "ps5": {
+    "description": "PS5 on 4K Plus",
+    "actions": [
+      { "ip": "192.168.1.248", "cmd": "1.", "transport": "tcp" }
+    ]
+  },
+  "pstv": {
+    "description": "PSTV on DXP",
+    "actions": [
+      { "ip": "192.168.1.249", "cmd": "3.", "transport": "http" }
+    ]
+  },
+  "nes": {
+    "description": "NES on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "4.", "transport": "http" }
+    ]
+  },
+  "snes": {
+    "description": "SNES on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "5.", "transport": "http" }
+    ]
+  },
+  "n64": {
+    "description": "N64 on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "6.", "transport": "http" }
+    ]
+  },
+  "gamecube": {
+    "description": "GameCube on Crosspoint & DXP",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "7.", "transport": "http" },
+      { "ip": "192.168.1.249", "cmd": "5.", "transport": "http" }
+    ]
+  },
+   "wii": {
+    "description": "Wii on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "8.", "transport": "http" }
+    ]
+  },
+   "sgb": {
+    "description": "Super Game Boy on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "11.", "transport": "http" }
+    ]
+  },
+   "gbi": {
+    "description": "Game Boy Interface on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "12.", "transport": "http" },
+	  { "ip": "192.168.1.249", "cmd": "6.", "transport": "http" }
+    ]
+  },
+   "gen": {
+    "description": "Genesis on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "9.", "transport": "http" }
+    ]
+  },
+   "vhs": {
+    "description": "VHS on CrossPoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "10.", "transport": "http" }
+    ]
+  },
+   "reset": {
+    "description": "Reset all Matrices",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "0*!", "transport": "http" },
+	  { "ip": "192.168.1.249", "cmd": "0*!", "transport": "http" },
+	  { "ip": "192.168.1.248", "cmd": "0*!", "transport": "tcp" }
+    ]
+  },
+   "tvgames": {
+    "description": "TV Games on Crosspoint",
+    "actions": [
+      { "ip": "192.168.1.252", "cmd": "20.", "transport": "http" }
+    ]
+  },
+    "360": {
+    "description": "Xbox 360 on DXP",
+    "actions": [
+      { "ip": "192.168.1.249", "cmd": "4.", "transport": "http" }
+    ]
+  },
+    "xsx": {
+    "description": "XSX on 4K Plus",
+    "actions": [
+      { "ip": "192.168.1.248", "cmd": "2.", "transport": "tcp" }
+    ]
+  },
+    "nsw": {
+    "description": "Switch 1 on DXP",
+    "actions": [
+      { "ip": "192.168.1.249", "cmd": "7.", "transport": "http" }
+    ]
+  },
+    "nsw2": {
+    "description": "Switch 2 on 4K Plus",
+    "actions": [
+      { "ip": "192.168.1.248", "cmd": "3.", "transport": "tcp" }
+    ]
+  },
+     "tink": {
+    "description": "RetroTink 4K Pro on 4K Plus",
+    "actions": [
+      { "ip": "192.168.1.248", "cmd": "4.", "transport": "tcp" }
+    ]
+  }
+}

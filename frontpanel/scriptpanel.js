@@ -9,7 +9,7 @@ const THEME_KEY   = 'extronMatrixTheme';
 const deviceStates = {};
 let currentDevice = null;
 
-// Mode flags
+// Flags
 let videoOn      = true;
 let audioOn      = true;
 let presetOn     = false;
@@ -69,16 +69,13 @@ if (window.self == window.top) {
     document.documentElement.classList.add('not-in-iframe');
 }
 
-// Mode Text
+// Mode UI
 function updateModeHint() {
   const el = document.getElementById('modeHint');
   if (!el) return;
   const parts = [];
   if (savePresetOn) {
-    parts.push(
-      'Save Preset — Click a numbered button to save current ties in that slot. ' +
-      'Will overwrite any preset saved in the same slot'
-    );
+    parts.push('Save Preset — Click a numbered button to save current ties in that slot. Will overwrite any preset saved in the same slot.');
   } else {
     if (videoOn && audioOn) parts.push('Video + Audio');
     else if (videoOn) parts.push('Video Only');
@@ -253,7 +250,7 @@ function removeOutputFromCommitted(out) {
   }
 }
 
-// Save Preset Mode
+// Save Preset
 function hasActiveTies() {
   if (!currentDevice) return false;
   return getState().committed.size > 0;
@@ -349,13 +346,12 @@ function buildButtons() {
       }
 
       btn.addEventListener('click', () => {
-
         if (savePresetOn) {
           const n = Number(btn.dataset.num);
           const pnum = isInput ? n : (currentDevice.numInputs + n);
-          sendCommand(pnum + ','); 
+          sendCommand(pnum + ',');
           setStatus(
-            `Saved current ties to preset ${pnum}`
+            `Saved current ties to preset ${pnum} — overwrites any previous preset in that slot`
           );
           exitSavePresetMode();
           return;
@@ -407,14 +403,14 @@ function buildButtons() {
   refreshAllVisuals();
 }
 
-// Device switching 
+// Device switching
 function switchDevice(name) {
   currentDevice = DEVICES.find(d => d.name === name);
   if (!currentDevice) return;
   exitSavePresetMode();
   getState();
   buildButtons();
-  setStatus(`Active device: ${currentDevice.name} (${currentDevice.ip})`);
+  setStatus(`Active device: ${currentDevice.name} (${currentDevice.ip}) [${currentDevice.transport || 'http'}]`);
   updateSavePresetButton();
   try { localStorage.setItem(STORAGE_KEY + '_lastDevice', name); } catch (_) {}
 }
@@ -427,24 +423,53 @@ function setStatus(msg) {
 
 function sendCommand(cmd) {
   if (!currentDevice) return;
-  const ip = currentDevice.ip;
-  const url = `http://${ip}/?cmd=${encodeURIComponent(cmd)}`;
+
+  const transport = currentDevice.transport || 'http';
+  const useProxy = transport === 'tcp' || currentDevice.useProxy === true;
+
+  if (useProxy) {
+    const url =
+      `/api/cmd?ip=${encodeURIComponent(currentDevice.ip)}` +
+      `&c=${encodeURIComponent(cmd)}` +
+      `&transport=${encodeURIComponent(transport)}`;
+
+    fetch(url)
+      .then(async (r) => {
+        const text = await r.text();
+        if (!r.ok) throw new Error(`${r.status} ${text.slice(0, 200)}`);
+        setStatus(
+          `Device: ${currentDevice.name} [${transport} via server]\n` +
+          `Command: ${cmd}\nResponse:\n${text}`
+        );
+      })
+      .catch((err) => {
+        setStatus(
+          `Device: ${currentDevice.name} [${transport}]\n` +
+          `Command: ${cmd}\nSend failed: ${err}`
+        );
+      });
+    return;
+  }
+
+  const url = `http://${currentDevice.ip}/?cmd=${encodeURIComponent(cmd)}`;
   const frame = document.querySelector('iframe[name="cmdFrame"]');
   if (frame) frame.src = url;
   setStatus(
-    `Device: ${currentDevice.name}\nCommand sent:\n${cmd}\n\nURL: ${url}`
+    `Device: ${currentDevice.name} [http direct]\nCommand sent:\n${cmd}\n\nURL: ${url}`
   );
 }
 
-// Init
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   loadAllStates();
 
-  document.getElementById('themeToggle')?.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    applyTheme(current === 'dark' ? 'light' : 'dark', true);
-  });
+  const themeBtn = document.getElementById('themeToggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark', true);
+    });
+  }
 
   document.getElementById('btnVideo')?.addEventListener('click', () => {
     if (videoOn && !audioOn) return;
@@ -539,6 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSavePresetButton();
   });
 
+  // Device dropdown
   const select = document.getElementById('deviceSelect');
   if (select) {
     DEVICES.forEach(d => {

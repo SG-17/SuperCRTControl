@@ -7,6 +7,7 @@ const DEVICES = [
 		ip: '192.168.1.252',				// Enter matrix IP address
 		numInputs: 		12,					// Enter total inputs of matrix
 		numOutputs: 	08,					// Enter total outputs of matrix
+		transport: 'http',					// 'http' for older devices, 'tcp' for newer
 		imageDir: 'images/',				// Directory of button images relative to location of panel webpage
 		inputImages: {						// File names for input buttom images. Add lines in same format for each input.
 			1: 'psx-crt-c.png',
@@ -34,11 +35,12 @@ const DEVICES = [
         },
     },
 	
-	// Matrix 2
+	// Matrix 3
     {	name: 'DXP HDMI 84',
 		ip: '192.168.1.249',
         numInputs: 		08,
         numOutputs: 	04,
+		transport: 'http',
         imageDir: 'images/',
         inputImages: {
 			1: 'ps3-crt-c.png',
@@ -57,6 +59,32 @@ const DEVICES = [
 			4: 'HDMI-YPBPR.png',
         },
     },
+	
+	// Matrix 3
+    {	name: 'DXP HD 4K Plus 84',
+		ip: '192.168.1.248',
+        numInputs: 		08,
+        numOutputs: 	04,
+		transport: 'tcp',
+        imageDir: 'images/',
+        inputImages: {
+			1: 'ps5-crt-c.png',
+			2: 'xsx-crt-c.png',
+			3: 'nsw2-crt-c.png',
+			4: '4kpro-crt-c.png',
+			5: '',
+			6: '',
+			7: '',
+			8: '',
+        },
+        outputImages: {
+			1: '1440-crt-c.png',
+			2: '1080-crt-c.png',
+			3: 'DXPHDMI84.png',
+			4: '',
+        },
+    },
+	
 
 	
 	
