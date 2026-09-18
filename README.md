@@ -239,7 +239,7 @@ RestartSec=20
 WantedBy=multi-user.target
 ```
 
-Reload the system service daemon, enable the Stream Deck Controller program, and check its status to see if its running correctly.
+Reload the system service daemon, enable the Super CRT-Control program, and check its status to see if its running correctly.
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable --now supercrt
