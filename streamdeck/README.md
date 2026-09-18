@@ -1,6 +1,7 @@
 ## Linux Debian/Ubuntu Based
 
-If using a microcomputer like a Raspberry Pi install Raspberry Pi OS full desktop for Pi 4 (2GB+) and Pi 5; Lite for Pi Zero 2 W, Pi 4 (1GB), and Pi 3). For OrangePi install Armbian, Desktop or Minimal depending on your hardware.
+If using a microcomputer like a Raspberry Pi install Raspberry Pi OS full desktop for Pi 4 (2GB+) and Pi 5; Lite for Pi Zero 2 W, Pi 4 (1GB), and Pi 3).  
+For OrangePi install [Armbian](https://armbian.com/boards/orangepizero2w), Desktop or Minimal depending on your hardware.
 
 First plug your Stream Deck into your Linux machine.  
 Open a terminal/connect via ssh.  
