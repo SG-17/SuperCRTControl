@@ -195,7 +195,8 @@ You can see a demo [here](https://retrogaming.swbfii.com/).
 </details>  
 
 <details>
-<summary>README for Stream Deck Integration</summary>
+<summary>README for Stream Deck Integration</summary>  
+	
 ## Linux Debian/Ubuntu Based
 
 If using a microcomputer like a Raspberry Pi install Raspberry Pi OS full desktop for Pi 4 (2GB+) and Pi 5; Lite for Pi Zero 2 W, Pi 4 (1GB), and Pi 3). For OrangePi install Armbian, Desktop or Minimal depending on your hardware.
