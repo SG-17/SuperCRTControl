@@ -213,7 +213,7 @@ cd ~/supercrt
 python3 server.py
 ```
 
-Edit your .html files, aliases.json, frontpanel/config.js, streamdeck/streamdeck.py files as needed for your setup
+Edit your .html files, aliases.json, frontpanel/config.js, streamdeck/streamdeck.py files as needed for your setup.  
 If you are a masochist you can manually use nano for this in a terminal, but I'd recommend using a desktop environment in Linux or editing them on another machine and copying the files over (you can open an ssh via PuTTY or something on another machine and quickly copy the contents over in nano too).  
 
 Now we will create the service to run Super CRT-Control in the background and on every boot.
