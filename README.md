@@ -253,7 +253,7 @@ sudo systemctl restart supercrt
 
 ## Windows 10/11
 
-Open PowerShell
+Open PowerShell  
 Enter the following to install python.
 ```
 winget install -e --id Python.Python.3.12 --accept-package-agreements --accept-source-agreements
