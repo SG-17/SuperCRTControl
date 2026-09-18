@@ -372,7 +372,7 @@ sudo systemctl enable --now streamdeck
 sudo systemctl status streamdeck
 ```
 
-If you need to make changes to `streamdeck.py` you'll need to run the below to apply them.
+If you need to make changes to `streamdeck.py` or if you unplug and plug your Stream Deck back in you'll need to run the below.
 ```
 sudo systemctl restart streamdeck
 ```
