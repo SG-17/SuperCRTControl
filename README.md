@@ -207,7 +207,12 @@ sudo apt upgrade -y
 
 Install python, git, and the desktop integration utilities
 ```
-sudo apt install -y python3 python3-pip git xdg-utils
+sudo apt install -y python3 python3-pip git xdg-utils avahi-utils
+```
+
+If you want to use port 80 run the following
+```
+sudo setcap 'cap_net_bind_service=+ep' "$(readlink -f "$(which python3)")"
 ```
 
 Clone the repository to your machine and test that `server.py` runs. Ctrl+C to close the program when running in a terminal.
@@ -257,10 +262,11 @@ sudo systemctl restart supercrt
 
 ## Windows 10/11
 
-Open PowerShell  
-Enter the following to install python.
+Install Python by using the [installer](https://www.python.org/downloads/release/pymanager-263/). Make sure that "Add to PATH" is selected in the setup options.  
+
+After Python installs open PowerShell and run the following
 ```
-winget install -e --id Python.Python.3.12 --accept-package-agreements --accept-source-agreements
+py -m pip install zeroconf
 ```
 
 Installing git and cloning is optional, you can copy manually from the .zip in Releases.
@@ -276,6 +282,8 @@ Press `WIN+R` to open Run
 Type in `shell:startup`
 
 Add a shortcut to `server.bat` in `c:\SuperCRTControl` here to run the program at every startup. 
+
+If you want to use port 80 you'll need to run as an Administrator.
 </details>  
 
 ***
