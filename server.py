@@ -4,16 +4,23 @@ import socket
 import os
 import sys
 import json
+import re
+import urllib.request
+import urllib.error
 
 HOST = "0.0.0.0"
-PORT = 8001
+PORT = 80   # Change if you have a conflict, you'll need to add :PORT on the end of any IP or mDNS address if not using port 80 (http://supercrt.local:8001 or http://192.158.1.251:8001)
 DXP_TCP_PORT = 23
 TCP_TIMEOUT = 2.0
+MDNS_NAME = "supercrt"  # Allows you to use http://supercrt.local to access the site, you can change this ("" disables).
+MDNS_TITLE = "Super CRT Control" 
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 ALIASES_FILE = os.path.join(ROOT, "aliases.json")
+DONUTSHOP_FILE = os.path.join(ROOT, "donutshop.json")
 
 _TLS_HANDSHAKE = 0x16
+_PRESET_RE = re.compile(r"^\s*(\d+)\s*\.\s*$")
 
 
 def send_sis_tcp(ip: str, cmd: str) -> str:
@@ -34,7 +41,6 @@ def send_sis_tcp(ip: str, cmd: str) -> str:
 
 
 def send_sis_http(ip: str, cmd: str) -> str:
-    import urllib.request
     url = f"http://{ip}/?cmd={quote(cmd, safe='')}"
     with urllib.request.urlopen(url, timeout=TCP_TIMEOUT) as resp:
         return resp.read().decode("utf-8", errors="replace")
@@ -53,6 +59,127 @@ def load_aliases():
         return {}
 
 
+def load_donutshop():
+    try:
+        with open(DONUTSHOP_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, dict):
+            return {}
+        return data
+    except FileNotFoundError:
+        return {}
+    except Exception as e:
+        print(f"[DONUTSHOP] load error: {e}")
+        return {}
+
+
+def parse_preset(cmd: str):
+    if not cmd:
+        return None
+    m = _PRESET_RE.match(cmd.strip())
+    if not m:
+        return None
+    return int(m.group(1))
+
+
+def donutshop_offset_for_ip(cfg: dict, ip: str):
+    ip = normalize_ip(ip)
+    for d in cfg.get("devices") or []:
+        dip = normalize_ip(str(d.get("ip") or ""))
+        if dip == ip:
+            try:
+                return int(d.get("offset") if d.get("offset") is not None else 0)
+            except (TypeError, ValueError):
+                return 0
+    return None
+
+
+def normalize_ip(ip: str) -> str:
+    ip = (ip or "").strip()
+    if ip.lower().startswith("http://"):
+        ip = ip[7:]
+    elif ip.lower().startswith("https://"):
+        ip = ip[8:]
+    return ip.split("/")[0].split(":")[0]
+
+
+def svs_from_preset(offset: int, preset: int) -> int:
+    if offset >= 100:
+        return offset + preset
+    return offset * 100 + preset
+
+
+def _donutshop_hosts(cfg: dict):
+    hosts = []
+    for key in ("host", "fallback"):
+        h = (cfg.get(key) or "").strip().rstrip("/")
+        if h and h not in hosts:
+            hosts.append(h)
+    if not hosts:
+        hosts.append("http://donutshop.local")
+    return hosts
+
+
+def _http_opener():
+    return urllib.request.build_opener(urllib.request.ProxyHandler({}))
+
+
+def post_donutshop_svs(svs: int, cfg: dict | None = None):
+    cfg = cfg if cfg is not None else load_donutshop()
+    timeout = float(cfg.get("timeout") or TCP_TIMEOUT)
+    payload = f"plain=SVS NEW INPUT={svs}".encode("ascii")
+    opener = _http_opener()
+    last_error = "no host configured"
+    for host in _donutshop_hosts(cfg):
+        url = host.rstrip("/") + "/cmd"
+        req = urllib.request.Request(url, data=payload, method="POST")
+        req.add_header("Content-Type", "application/x-www-form-urlencoded")
+        print(f"[DONUTSHOP] POST {url}  SVS NEW INPUT={svs}")
+        try:
+            with opener.open(req, timeout=timeout) as resp:
+                reply = resp.read().decode("utf-8", errors="replace")
+                status = getattr(resp, "status", 200)
+            extra = (" " + reply.strip()[:200]) if reply.strip() else ""
+            print(f"[DONUTSHOP] {status}{extra}")
+            return {"ok": True, "url": url, "svs": svs, "status": status, "response": reply}
+        except urllib.error.HTTPError as e:
+            if 200 <= e.code < 300:
+                print(f"[DONUTSHOP] {e.code}")
+                return {"ok": True, "url": url, "svs": svs, "status": e.code, "response": ""}
+            last_error = f"HTTP {e.code} {e.reason}"
+            print(f"[DONUTSHOP] FAIL {url}: {last_error}")
+        except Exception as e:
+            last_error = str(e)
+            print(f"[DONUTSHOP] FAIL {url}: {last_error}")
+    return {"ok": False, "svs": svs, "error": last_error}
+
+
+def notify_donutshop(ip: str, cmd: str):
+    cfg = load_donutshop()
+    preset = parse_preset(cmd)
+    if preset is None:
+        return None
+    if not os.path.isfile(DONUTSHOP_FILE):
+        msg = f"missing {DONUTSHOP_FILE}"
+        print(f"[DONUTSHOP] skipped: {msg}")
+        return {"ok": False, "error": msg}
+    if not cfg.get("enabled"):
+        msg = f"disabled in {DONUTSHOP_FILE}"
+        print(f"[DONUTSHOP] skipped: {msg}")
+        return {"ok": False, "error": msg}
+    offset = donutshop_offset_for_ip(cfg, ip)
+    if offset is None:
+        msg = f"no device map for {ip} (cmd={cmd!r})"
+        print(f"[DONUTSHOP] {msg}")
+        return {"ok": False, "error": msg, "ip": ip, "cmd": cmd}
+    svs = svs_from_preset(offset, preset)
+    result = post_donutshop_svs(svs, cfg)
+    result["ip"] = ip
+    result["preset"] = preset
+    result["offset"] = offset
+    return result
+
+
 def run_alias_actions(actions):
     results = []
     for a in actions or []:
@@ -67,13 +194,17 @@ def run_alias_actions(actions):
                 body = send_sis_http(ip, cmd)
             else:
                 body = send_sis_tcp(ip, cmd)
-            results.append({
+            ds = notify_donutshop(ip, cmd)
+            row = {
                 "ok": True,
                 "ip": ip,
                 "cmd": cmd,
                 "transport": transport,
                 "response": body or "ok",
-            })
+            }
+            if ds is not None:
+                row["donutshop"] = ds
+            results.append(row)
             print(f"[ALIAS] OK {transport} {ip} {cmd!r}")
         except Exception as e:
             results.append({
@@ -179,13 +310,34 @@ class Handler(SimpleHTTPRequestHandler):
                     body = send_sis_http(ip, cmd)
                 else:
                     body = send_sis_tcp(ip, cmd)
-                return self._reply(200, body if body else "ok")
+                ds = notify_donutshop(ip, cmd)
+                if ds is None:
+                    return self._reply(200, body if body else "ok")
+                return self._reply_json(200, {
+                    "extron": body if body else "ok",
+                    "donutshop": ds,
+                })
             except Exception as e:
                 print(f"[API ERROR] {e}")
                 return self._reply(502, f"proxy error: {e}")
 
         if path == "/api/aliases":
             return self._reply_json(200, {"aliases": load_aliases()})
+
+        if path == "/api/donutshop":
+            cfg = load_donutshop()
+            cfg["_file"] = DONUTSHOP_FILE
+            cfg["_exists"] = os.path.isfile(DONUTSHOP_FILE)
+            return self._reply_json(200, cfg)
+
+        if path == "/api/donutshop/test":
+            qs = parse_qs(parsed.query)
+            try:
+                svs = int((qs.get("n") or ["1"])[0])
+            except ValueError:
+                return self._reply(400, "n must be an integer")
+            result = post_donutshop_svs(svs)
+            return self._reply_json(200 if result.get("ok") else 502, result)
 
         if path != "/" and not path.startswith("/api") and not path.startswith("/cmd"):
             seg = path.lstrip("/")
@@ -256,6 +408,67 @@ def get_lan_ip() -> str:
         return "127.0.0.1"
 
 
+def start_mdns(ip: str, port: int):
+    name = (MDNS_NAME or "").strip().strip(".")
+    if not name:
+        return None
+    host = f"{name}.local."
+    title = (MDNS_TITLE or name).strip() or name
+
+    try:
+        from zeroconf import ServiceInfo, Zeroconf
+        info = ServiceInfo(
+            "_http._tcp.local.",
+            f"{title}._http._tcp.local.",
+            addresses=[socket.inet_aton(ip)],
+            port=port,
+            properties={"path": "/", "alias": name},
+            server=host,
+        )
+        zc = Zeroconf()
+        zc.register_service(info)
+        print(f"mDNS:      http://{name}.local:{port}/  (zeroconf)")
+        return ("zeroconf", zc, info)
+    except ImportError:
+        pass
+    except Exception as e:
+        print(f"mDNS:      zeroconf failed ({e}), trying avahi")
+
+    try:
+        import subprocess
+        proc = subprocess.Popen(
+            ["avahi-publish", "-a", "-R", f"{name}.local", ip],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        print(f"mDNS:      http://{name}.local:{port}/  (avahi-publish)")
+        return ("avahi", proc, None)
+    except FileNotFoundError:
+        print(
+            "mDNS:      not advertised. Install one of:\n"
+            "           pip install zeroconf\n"
+            "           sudo apt install avahi-utils"
+        )
+        return None
+    except Exception as e:
+        print(f"mDNS:      avahi-publish failed ({e})")
+        return None
+
+
+def stop_mdns(handle) -> None:
+    if not handle:
+        return
+    kind, obj, extra = handle
+    try:
+        if kind == "zeroconf":
+            obj.unregister_service(extra)
+            obj.close()
+        elif kind == "avahi" and obj.poll() is None:
+            obj.terminate()
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
     os.chdir(ROOT)
     try:
@@ -266,13 +479,20 @@ if __name__ == "__main__":
             f"Stop the other web server or change PORT."
         )
 
+    lan = get_lan_ip()
+    ds = load_donutshop()
+    mdns = start_mdns(lan, PORT)
     print(f"Site root: {ROOT}")
     print(f"Aliases:   {ALIASES_FILE} exists={os.path.isfile(ALIASES_FILE)}")
-    print(f"Home:      http://{get_lan_ip()}:{PORT}/")
-    print(f"API:       http://{get_lan_ip()}:{PORT}/api/cmd?ip=<ip>&c=<sis>&transport=tcp")
-    print(f"Aliases:   http://{get_lan_ip()}:{PORT}/api/aliases")
-    print(f"Example:   http://{get_lan_ip()}:{PORT}/ps1")
+    print(f"DonutShop: {DONUTSHOP_FILE} enabled={bool(ds.get('enabled'))} host={ds.get('host')}")
+    print(f"Home:      http://{lan}:{PORT}/")
+    print(f"API:       http://{lan}:{PORT}/api/cmd?ip=<ip>&c=<sis>&transport=tcp")
+    print(f"Aliases:   http://{lan}:{PORT}/api/aliases")
+    print(f"DonutShop: http://{lan}:{PORT}/api/donutshop")
+    print(f"Example:   http://{lan}:{PORT}/ps1")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\nStopped.")
+    finally:
+        stop_mdns(mdns)

@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "host": "http://donutshop.local",
+  "timeout": 2.0,
+  "comment": "Offset sets the SVS profile grouping to call: 0 = SVS 1-99, 1 = 101-199, 2 = 201-299, etc (ie S1_profile.rt4, S102_profile.rt4). Preset 7 on offset 0 sends SVS NEW INPUT=7; the same preset on offset 1 sends SVS NEW INPUT=107. Use the Extron LAN IP (no http://). If mDNS fails, set host to http://<donutshop-ip>.",
+  "devices": [
+    { "ip": "192.168.1.252", "offset": 0, "label": "Extron Crosspoint 128  S1-S99" },
+    { "ip": "192.168.1.249", "offset": 1, "label": "Extron DXP HDMI 84  S101-S199" }
+  ]
+}

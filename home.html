@@ -19,13 +19,61 @@
 -->
 
 <!--
+*********************
+	!!BASIC INSTALL!!
+	
 	To set a command link enter the IP Address of your Extron Matrix Switcher (Crosspoint, DXP, MVX) that you use to access the web control menu followed by "?cmd=#." 
 	Replace the # with the number of the profile on the Extron that the link will be loading. The period (.) at the end is necessary, do not delete it.
 	Change the image link to the matching image you desire and the alt text to match.
 	Example below:
 				<a href="http://192.168.1.252/?cmd=1." target="iframe1"><img src="images/psx-crt-c.png" alt="PS2"></a>
+
+	If you need a button to load a profile on more than one Extron at a time use the following format for the link:
+				<a href="#" onclick="multiCmd([
+								'http://192.168.1.249/?cmd=5.',
+								'http://192.168.1.252/?cmd=7.'
+								]); return false;">
+					<img src="images/gamecube-crt-c.png" alt="NGC (both)">
+				</a>
+	
+	To make a button that resets all ties (input & output connections) use "?cmd=0*!" in your url.
+	
+	To control a DXP HD 4K or DXP HD 4K Plus matrix add the following to your url:
+		<a href="http://192.168.1.248/?cmd=5." data-transport="tcp" target="iframe1"><img src="images/4kpro-crt-c.png" alt="RetroTink"></a>
+		
+	Or for multi-urls:
+		<a href="#" onclick="multiCmd([
+						'http://192.168.1.252/?cmd=7.',
+				{ url: 'http://192.168.1.248/?cmd=5.', transport: 'tcp' }
+				]); return false;">
+		<img src="images/psx-crt-c.png" alt="PlayStations">
+		</a>
 				
-	*********************
+*********************
+	!!ADVANCED INSTALL!!
+	
+	To set a command link enter the IP Address of your Super CRT install or use http://supercrt.local followed by the short code you setup in aliases.json.
+	
+	Change the image link to the matching image you desire and the alt text to match.
+	Example below:
+				<a href="http://192.168.1.251/ps1" target="iframe1"><img src="images/psx-crt-c.png" alt="PS1"></a>
+			or
+				<a href="http://supercrt.local/ps1" target="iframe1"><img src="images/psx-crt-c.png" alt="PS1"></a>
+			or
+				<a href="ps1" target="iframe1"><img src="images/psx-crt-c.png" alt="PS1"></a>	
+	
+	If you need a button to load more than one aliased link at a time use the following format for the link:
+				<a href="#" onclick="multiCmd([
+								'http://192.168.1.251/ps1',
+								'http://192.168.1.251/ps2'
+								]); return false;">
+					<img src="images/psx-crt-c.png" alt="PlayStations">
+				</a>
+	Of course you can setup an alias that loads more than one profile at a time.
+	
+	To make a button that resets all ties (input & output connections) use /reset in your url.
+				
+*********************
 	
 	You can link to submenus or second pages for more systems or game specific profiles by simply linking to the new page.
 	Example below:
@@ -41,32 +89,9 @@
 				<link href="css/style20.css" rel="stylesheet">
 				<link href="css/style32.css" rel="stylesheet">
 	
-	*********************	
-	
-	If you need a button to load a profile on more than one Extron at a time use the following format for the link:
-				<a href="#" onclick="multiCmd([
-								'http://192.168.1.249/?cmd=5.',
-								'http://192.168.1.252/?cmd=7.'
-								]); return false;">
-					<img src="images/gamecube-crt-c.png" alt="NGC (both)">
-				</a>
-	
-	********************
-	
-	To make a button that resets all ties (input & output connections) use "?cmd=0*!" in your url.
-	
-	********************
+********************
 	
 	If you need assistance please ask SG-17 on the RetroTink Discord https://discord.com/invite/jE6deAhjCM
-	
-	data-transport="tcp"
-	
-	<a href="#" onclick="multiCmd([
-  'http://192.168.1.252/?cmd=7.',
-  { url: 'http://192.168.1.248/?cmd=5.', transport: 'tcp' }
-]); return false;">
-  <img …>
-</a>
 -->
 <body>
 <img src="favicon-96x96.png" class="frontpanel" title="Control Panel" onclick="window.location.href='frontpanel/index.html';" /> <!-- Remove/comment out if not using the Front Panel Controller --> 
@@ -77,7 +102,7 @@
 
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=1." target="iframe1"><img src="images/psx-crt-c.png" alt="PS1"></a>
+			<a href="ps1" target="iframe1"><img src="images/psx-crt-c.png" alt="PS1"></a>
         </div>
     </div>
     <div class="flex-item">
@@ -87,62 +112,52 @@
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=3." target="iframe1"><img src="images/ps3-crt-c.png" alt="PS3 Component"></a>
+			<a href="ps3" target="iframe1"><img src="images/ps3-crt-c.png" alt="PS3 Component"></a>
         </div>
     </div>
     <div class="flex-item">
 		<div class="box">
-			<a href="http://192.168.1.252/?cmd=4." target="iframe1"><img src="images/nes-crt-c.png" alt="NES"></a>
+			<a href="nes" target="iframe1"><img src="images/nes-crt-c.png" alt="NES"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=5." target="iframe1"><img src="images/snes-crt-c.png" alt="SNES"></a>
+			<a href="snes" target="iframe1"><img src="images/snes-crt-c.png" alt="SNES"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=6." target="iframe1"><img src="images/n64-crt-c.png" alt="N64"></a>
+			<a href="n64" target="iframe1"><img src="images/n64-crt-c.png" alt="N64"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" onclick="multiCmd([
-								'http://192.168.1.249/?cmd=5.',
-								'http://192.168.1.252/?cmd=7.'
-								]); return false;">
-				<img src="images/gamecube-crt-c.png" alt="NGC (both)">
-			</a>
+			<a href="gaemcube" target="iframe1"><img src="images/gamecube-crt-c.png" alt="NGC (both)"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=8." target="iframe1"><img src="images/wii-crt-c.png" alt="Wii"></a>
+			<a href="wii" target="iframe1"><img src="images/wii-crt-c.png" alt="Wii"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=11." target="iframe1"><img src="images/sgb-crt-c.png" alt="SGB"></a>
+			<a href="sgb" target="iframe1"><img src="images/sgb-crt-c.png" alt="SGB"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" onclick="multiCmd([
-								'http://192.168.1.249/?cmd=6.',
-								'http://192.168.1.252/?cmd=12.'
-								]); return false;">
-				<img src="images/gbp-crt-c.png" alt="GBI (both)">
-			</a>
+			<a href="gbi" target="iframe1"><img src="images/gbp-crt-c.png" alt="GBI (both)"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=9." target="iframe1"><img src="images/genesis-crt-c.png" alt="Genesis"></a>
+			<a href="gen" target="iframe1"><img src="images/genesis-crt-c.png" alt="Genesis"></a>
         </div>
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="http://192.168.1.252/?cmd=10." target="iframe1"><img src="images/vhs-crt-c.png" alt="VCR"></a>
+			<a href="vhs" target="iframe1"><img src="images/vhs-crt-c.png" alt="VCR"></a>
         </div>
     </div>
     <div class="flex-item">
@@ -162,13 +177,7 @@
     </div>
     <div class="flex-item">
         <div class="box">
-			<a href="#" onclick="multiCmd([
-								'http://192.168.1.249/?cmd=0*!',
-								'http://192.168.1.252/?cmd=0*!',
-								{ url: 'http://192.168.1.248/?cmd=0*!', transport: 'tcp' }
-								]); return false;">
-				<img src="images/reset-crt-c.png" alt="Reset">
-			</a>
+			<a href="reset" target="iframe1"><img src="images/reset-crt-c.png" alt="Reset"></a>
         </div>
     </div>
 	  
