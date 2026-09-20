@@ -73,7 +73,7 @@ User={YOURUSERNAME}
 Group={YOURUSERNAME}
 WorkingDirectory=/home/{YOURUSERNAME}/supercrt/streamdeck
 ExecStart=/home/{YOURUSERNAME}/supercrt/streamdeck/venv/bin/python /home/{YOURUSERNAME}/supercrt/streamdeck/streamdeck.py
-Restart=on-failure
+Restart=always
 RestartSec=20
 
 [Install]
