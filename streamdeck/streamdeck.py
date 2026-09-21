@@ -14,19 +14,24 @@ from StreamDeck.ImageHelpers import PILHelper
 
 try:
     from StreamDeck.Transport.Transport import TransportError
-except Exception:  
-    TransportError = OSError  
+except Exception:
+    TransportError = OSError
 
-# Config — put your Super CRT-Control web server IP:PORT below
+# Config — put your Super CRT-Control web server IP:PORT/IP/mDNS adddress below
 
-SCC = "http://0.0.0.0:8001"
+SCC = "http://192.168.1.251"
 
-IDLE_SLEEP_SECONDS = 0.5 * 60           # How long until the Deck sleeps, set to 30 seconds
-WAKE_BRIGHTNESS = 60                    # How bright the Deck's buttons are, set between 0–100
+IDLE_SLEEP_SECONDS = 1 * 60          # How long until the Deck sleeps, set to 60 seconds
+WAKE_BRIGHTNESS = 60                 # How bright the Deck's buttons are, set between 0–100
 POLL_SLEEP = 0.25
-RECONNECT_SECONDS = 2.0  
-PROCESS_REFRESH_SECONDS = 60 * 60       # How often the program restarts itself, set to 60 minutes
-HEARTBEAT_STALE_SECONDS = 45            # How often it checks that the Deck hasn't fallen off the HID
+RECONNECT_SECONDS = 2.0
+OPEN_SETTLE_SECONDS = 0.5
+USB_RESET_SETTLE_SECONDS = 2.5
+ELGATO_VID = "0fd9"
+PROCESS_REFRESH_SECONDS = 60 * 60    # How often the program restarts itself, set to 60 minutes
+HEARTBEAT_STALE_SECONDS = 45
+LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "streamdeck.log")
+_log_fp = None
 
 CURRENT_PAGE = "HOME"
 _last_activity = time.monotonic()
@@ -36,7 +41,6 @@ _process_started = time.monotonic()
 _heartbeat = time.monotonic()
 _restarting = False
 _active_deck = None
-
 
 # Pages: key index 0–14 (Stream Deck MK.2 = 15 keys)
 # Can trigger a url, load a new page of buttons, or both
@@ -152,7 +156,7 @@ PAGES: dict[str, dict[int, dict[str, Any]]] = {
         },
         13: {
             "label": "Main Menu",
-            "icon_url": f"{SCC}/images/deck/back.png",
+            "icon_url": f"{SCC}/images/deck/home.png",
             "target_page": "HOME",
         },
         14: {
@@ -219,7 +223,7 @@ PAGES: dict[str, dict[int, dict[str, Any]]] = {
         },
         13: {
             "label": "Main Menu",
-            "icon_url": f"{SCC}/images/deck/back.png",
+            "icon_url": f"{SCC}/images/deck/home.png",
             "target_page": "HOME",
         },
         14: {
@@ -230,7 +234,7 @@ PAGES: dict[str, dict[int, dict[str, Any]]] = {
     },
 }
 
-# Don't touch anything below this line
+# Do not touch anything below this line
 
 def touch_activity() -> None:
     global _last_activity
@@ -240,6 +244,96 @@ def touch_activity() -> None:
 def beat() -> None:
     global _heartbeat
     _heartbeat = time.monotonic()
+
+
+class _Tee:
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, data):
+        for s in self.streams:
+            try:
+                s.write(data)
+                s.flush()
+            except Exception:
+                pass
+
+    def flush(self):
+        for s in self.streams:
+            try:
+                s.flush()
+            except Exception:
+                pass
+
+    def isatty(self):
+        try:
+            return bool(self.streams and self.streams[0].isatty())
+        except Exception:
+            return False
+
+
+def start_log_file() -> None:
+    global _log_fp
+    path = (LOG_FILE or "").strip()
+    if not path:
+        return
+    try:
+        _log_fp = open(path, "a", encoding="utf-8", buffering=1)
+    except Exception as e:
+        print(f"Could not open log file {path}: {e}")
+        return
+    sys.stdout = _Tee(sys.__stdout__, _log_fp)
+    sys.stderr = _Tee(sys.__stderr__, _log_fp)
+    stamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    print(f"----- {stamp} pid={os.getpid()} -----")
+    print(f"Logging to {path}")
+
+
+def iter_elgato_usb():
+    root = "/sys/bus/usb/devices"
+    if not os.path.isdir(root):
+        return
+    try:
+        names = os.listdir(root)
+    except OSError:
+        return
+    for name in names:
+        path = os.path.join(root, name)
+        try:
+            with open(os.path.join(path, "idVendor"), encoding="ascii") as f:
+                vendor = f.read().strip().lower()
+        except OSError:
+            continue
+        if vendor == ELGATO_VID:
+            yield path
+
+
+def set_elgato_authorized(value: str) -> bool:
+    found = list(iter_elgato_usb())
+    if not found:
+        print(f"USB authorized={value}: no Elgato device")
+        return False
+    ok = False
+    for path in found:
+        auth = os.path.join(path, "authorized")
+        try:
+            with open(auth, "w", encoding="ascii") as f:
+                f.write(str(value))
+            print(f"USB authorized={value} {path}")
+            ok = True
+        except OSError as e:
+            print(f"USB authorized={value} {path} failed ({e})")
+    return ok
+
+
+def reset_elgato_usb() -> bool:
+    off = set_elgato_authorized("0")
+    time.sleep(0.6)
+    on = set_elgato_authorized("1")
+    if off or on:
+        time.sleep(USB_RESET_SETTLE_SECONDS)
+        return True
+    return False
 
 
 def restore_state_from_env() -> None:
@@ -276,7 +370,14 @@ def self_restart(deck=None, reason: str = "scheduled") -> None:
     closer = threading.Thread(target=_close, name="deck-close", daemon=True)
     closer.start()
     closer.join(timeout=2.0)
+    set_elgato_authorized("0")
+    time.sleep(0.4)
 
+    if os.environ.get("INVOCATION_ID"):
+        print("Exiting for systemd restart")
+        os._exit(0)
+
+    reset_elgato_usb()
     python = sys.executable or "python3"
     argv = [python] + sys.argv
     try:
@@ -353,14 +454,14 @@ def clear_all_keys(deck) -> None:
 
 
 def render_current_page(deck) -> None:
-    print(f"\n Loading page: {CURRENT_PAGE}")
+    print(f"\nLoading page: {CURRENT_PAGE}")
     try:
         with deck:
-            deck.reset()
             deck.set_brightness(WAKE_BRIGHTNESS)
     except Exception as e:
         print(f"reset/brightness: {e}")
 
+    clear_all_keys(deck)
     page_data = PAGES.get(CURRENT_PAGE, {})
     for key, data in page_data.items():
         if "icon_url" in data:
@@ -384,7 +485,7 @@ def wake_up(deck) -> None:
         if not _asleep:
             touch_activity()
             return
-        print("Wake — restoring page")
+        print("Waking")
         _asleep = False
         touch_activity()
         render_current_page(deck)
@@ -396,7 +497,6 @@ def button_callback(deck, key: int, state: bool) -> None:
     if not state:
         return
 
-    # First press while asleep only wakes
     if _asleep:
         wake_up(deck)
         return
@@ -435,12 +535,6 @@ def close_deck(deck) -> None:
     except Exception:
         pass
     try:
-        with deck:
-            deck.reset()
-            deck.set_brightness(0)
-    except Exception:
-        pass
-    try:
         deck.close()
     except Exception:
         pass
@@ -457,8 +551,19 @@ def try_open_deck():
     deck = found[0]
     try:
         deck.open()
-        deck.reset()
-        print(f"Opened: {deck.deck_type()} serial={deck.get_serial_number()}")
+        time.sleep(OPEN_SETTLE_SECONDS)
+        try:
+            deck.set_brightness(WAKE_BRIGHTNESS)
+            kind = deck.deck_type()
+            serial = deck.get_serial_number()
+        except Exception as e:
+            print(f"open incomplete: {e}")
+            try:
+                deck.close()
+            except Exception:
+                pass
+            return None
+        print(f"Opened: {kind} serial={serial}")
         return deck
     except Exception as e:
         print(f"open failed: {e}")
@@ -481,6 +586,7 @@ def deck_still_connected(deck) -> bool:
 def main() -> None:
     global _asleep, _active_deck
 
+    start_log_file()
     restore_state_from_env()
     beat()
     start_watchdog()
@@ -488,16 +594,23 @@ def main() -> None:
     print(f"Idle sleep after {IDLE_SLEEP_SECONDS}s ({IDLE_SLEEP_SECONDS // 60} min)")
     if PROCESS_REFRESH_SECONDS:
         print(f"Process refresh every {PROCESS_REFRESH_SECONDS}s ({PROCESS_REFRESH_SECONDS // 60} min)")
-    print("Waiting for a USB Stream Deck")
+    print("Waiting for a USB Stream Deck (will retry if unplugged).")
+    set_elgato_authorized("1")
 
     first_open = True
+    open_fails = 0
     try:
         while True:
             deck = try_open_deck()
             if deck is None:
+                open_fails += 1
+                if open_fails in (1, 3, 8):
+                    print("Open failed — USB reset")
+                    reset_elgato_usb()
                 time.sleep(RECONNECT_SECONDS)
                 beat()
                 continue
+            open_fails = 0
 
             resume_sleep = first_open and _asleep
             first_open = False
@@ -505,7 +618,7 @@ def main() -> None:
             beat()
 
             if resume_sleep:
-                print("Restored asleep after refresh — keys stay off")
+                print("Restored asleep after refresh")
                 apply_sleep_display(deck)
             else:
                 _asleep = False
@@ -525,7 +638,7 @@ def main() -> None:
                         self_restart(deck, "hourly refresh")
                         return
                     if not deck_still_connected(deck):
-                        print("Stream Deck disconnected — waiting to plug it back in")
+                        print("Stream Deck disconnected — waiting to plug it back in.")
                         break
                     if not _asleep and (time.monotonic() - _last_activity) >= IDLE_SLEEP_SECONDS:
                         go_to_sleep(deck)
