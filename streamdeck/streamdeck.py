@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import io
+import os
+import sys
 import threading
 import time
 from typing import Any
@@ -10,18 +12,31 @@ from PIL import Image
 from StreamDeck.DeviceManager import DeviceManager
 from StreamDeck.ImageHelpers import PILHelper
 
-# Config: Put in your Super CRT-Control webserver IP:PORT below
+try:
+    from StreamDeck.Transport.Transport import TransportError
+except Exception:  
+    TransportError = OSError  
+
+# Config — put your Super CRT-Control web server IP:PORT below
 
 SCC = "http://0.0.0.0:8001"
 
-IDLE_SLEEP_SECONDS = 5 * 60          # 5 minutes
-WAKE_BRIGHTNESS = 40                 # 0–100
+IDLE_SLEEP_SECONDS = 0.5 * 60           # How long until the Deck sleeps, set to 30 seconds
+WAKE_BRIGHTNESS = 60                    # How bright the Deck's buttons are, set between 0–100
 POLL_SLEEP = 0.25
+RECONNECT_SECONDS = 2.0  
+PROCESS_REFRESH_SECONDS = 60 * 60       # How often the program restarts itself, set to 60 minutes
+HEARTBEAT_STALE_SECONDS = 45            # How often it checks that the Deck hasn't fallen off the HID
 
 CURRENT_PAGE = "HOME"
 _last_activity = time.monotonic()
 _asleep = False
 _lock = threading.Lock()
+_process_started = time.monotonic()
+_heartbeat = time.monotonic()
+_restarting = False
+_active_deck = None
+
 
 # Pages: key index 0–14 (Stream Deck MK.2 = 15 keys)
 # Can trigger a url, load a new page of buttons, or both
@@ -215,11 +230,78 @@ PAGES: dict[str, dict[int, dict[str, Any]]] = {
     },
 }
 
-# Don't touch anything under this line
+# Don't touch anything below this line
 
 def touch_activity() -> None:
     global _last_activity
     _last_activity = time.monotonic()
+
+
+def beat() -> None:
+    global _heartbeat
+    _heartbeat = time.monotonic()
+
+
+def restore_state_from_env() -> None:
+    global CURRENT_PAGE, _asleep
+    page = os.environ.get("SUPERCRT_DECK_PAGE", "")
+    if page in PAGES:
+        CURRENT_PAGE = page
+    _asleep = os.environ.get("SUPERCRT_DECK_ASLEEP") == "1"
+
+
+def apply_sleep_display(deck) -> None:
+    try:
+        with deck:
+            deck.set_brightness(0)
+    except Exception as e:
+        print(f"sleep brightness: {e}")
+    clear_all_keys(deck)
+
+
+def self_restart(deck=None, reason: str = "scheduled") -> None:
+    global _restarting
+    if _restarting:
+        return
+    _restarting = True
+    print(f"Self-restart ({reason})...")
+
+    env = os.environ.copy()
+    env["SUPERCRT_DECK_PAGE"] = CURRENT_PAGE
+    env["SUPERCRT_DECK_ASLEEP"] = "1" if _asleep else "0"
+
+    def _close() -> None:
+        close_deck(deck)
+
+    closer = threading.Thread(target=_close, name="deck-close", daemon=True)
+    closer.start()
+    closer.join(timeout=2.0)
+
+    python = sys.executable or "python3"
+    argv = [python] + sys.argv
+    try:
+        os.execve(python, argv, env)
+    except Exception as e:
+        print(f"execve failed: {e}")
+        os._exit(1)
+
+
+def start_watchdog() -> None:
+
+    def _run() -> None:
+        while True:
+            time.sleep(5)
+            if _restarting:
+                return
+            now = time.monotonic()
+            if PROCESS_REFRESH_SECONDS and (now - _process_started) >= PROCESS_REFRESH_SECONDS:
+                self_restart(_active_deck, "hourly refresh")
+                return
+            if (now - _heartbeat) >= HEARTBEAT_STALE_SECONDS:
+                self_restart(_active_deck, "HID heartbeat stale")
+                return
+
+    threading.Thread(target=_run, name="deck-watchdog", daemon=True).start()
 
 
 def set_key_image_from_url(deck, key: int, icon_url: str) -> None:
@@ -229,10 +311,28 @@ def set_key_image_from_url(deck, key: int, icon_url: str) -> None:
             print(f"Icon HTTP {response.status_code} for key {key}: {icon_url}")
             return
         image = Image.open(io.BytesIO(response.content)).convert("RGB")
-        if hasattr(PILHelper, "create_key_image"):
-            image_formatted = PILHelper.create_key_image(deck, image)
+        if hasattr(PILHelper, "create_scaled_key_image"):
+            image_formatted = PILHelper.create_scaled_key_image(deck, image)
+        elif hasattr(PILHelper, "create_key_image"):
+            image_formatted = PILHelper.create_key_image(deck)
+            image.thumbnail(image_formatted.size)
+            image_formatted.paste(
+                image,
+                (
+                    (image_formatted.width - image.width) // 2,
+                    (image_formatted.height - image.height) // 2,
+                ),
+            )
         else:
-            image_formatted = PILHelper.create_image(deck, image)
+            image_formatted = PILHelper.create_image(deck)
+            image.thumbnail(image_formatted.size)
+            image_formatted.paste(
+                image,
+                (
+                    (image_formatted.width - image.width) // 2,
+                    (image_formatted.height - image.height) // 2,
+                ),
+            )
         if hasattr(PILHelper, "to_native_key_format"):
             raw_bytes = PILHelper.to_native_key_format(deck, image_formatted)
         else:
@@ -265,7 +365,7 @@ def render_current_page(deck) -> None:
     for key, data in page_data.items():
         if "icon_url" in data:
             set_key_image_from_url(deck, key, data["icon_url"])
-    print("Page loaded")
+    print("Page rendered")
 
 
 def go_to_sleep(deck) -> None:
@@ -273,13 +373,8 @@ def go_to_sleep(deck) -> None:
     with _lock:
         if _asleep:
             return
-        print("Activity timeout — Keys sleeping")
-        try:
-            with deck:
-                deck.set_brightness(0)
-        except Exception as e:
-            print(f"sleep brightness: {e}")
-        clear_all_keys(deck)
+        print("Idle timeout — Stream Deck sleep")
+        apply_sleep_display(deck)
         _asleep = True
 
 
@@ -289,7 +384,7 @@ def wake_up(deck) -> None:
         if not _asleep:
             touch_activity()
             return
-        print("Waking")
+        print("Wake — restoring page")
         _asleep = False
         touch_activity()
         render_current_page(deck)
@@ -332,38 +427,120 @@ def button_callback(deck, key: int, state: bool) -> None:
             print(f"Unknown target_page: {next_page}")
 
 
-def main() -> None:
-    streamdecks = DeviceManager().enumerate()
-    if not streamdecks:
-        print("No Stream Deck found over USB.")
-        raise SystemExit(1)
-
-    deck = streamdecks[0]
-    deck.open()
-    deck.set_brightness(WAKE_BRIGHTNESS)
-    print(f"Opened: {deck.deck_type()} serial={deck.get_serial_number()}")
-    print(f"Idle sleep after {IDLE_SLEEP_SECONDS}s ({IDLE_SLEEP_SECONDS // 60} min)")
-
-    touch_activity()
-    render_current_page(deck)
-    deck.set_key_callback(button_callback)
-    print("Super CRT-Control Stream Deck Remote active.")
-
+def close_deck(deck) -> None:
+    if deck is None:
+        return
     try:
-        while True:
-            time.sleep(POLL_SLEEP)
-            if not _asleep and (time.monotonic() - _last_activity) >= IDLE_SLEEP_SECONDS:
-                go_to_sleep(deck)
-    except KeyboardInterrupt:
-        print("\nStopping...")
-    finally:
+        deck.set_key_callback(None)
+    except Exception:
+        pass
+    try:
+        with deck:
+            deck.reset()
+            deck.set_brightness(0)
+    except Exception:
+        pass
+    try:
+        deck.close()
+    except Exception:
+        pass
+
+
+def try_open_deck():
+    try:
+        found = DeviceManager().enumerate()
+    except Exception as e:
+        print(f"enumerate failed: {e}")
+        return None
+    if not found:
+        return None
+    deck = found[0]
+    try:
+        deck.open()
+        deck.reset()
+        print(f"Opened: {deck.deck_type()} serial={deck.get_serial_number()}")
+        return deck
+    except Exception as e:
+        print(f"open failed: {e}")
         try:
-            with deck:
-                deck.reset()
-                deck.set_brightness(0)
             deck.close()
         except Exception:
             pass
+        return None
+
+
+def deck_still_connected(deck) -> bool:
+    try:
+        with deck:
+            deck.get_serial_number()
+        return True
+    except (TransportError, OSError, Exception):
+        return False
+
+
+def main() -> None:
+    global _asleep, _active_deck
+
+    restore_state_from_env()
+    beat()
+    start_watchdog()
+
+    print(f"Idle sleep after {IDLE_SLEEP_SECONDS}s ({IDLE_SLEEP_SECONDS // 60} min)")
+    if PROCESS_REFRESH_SECONDS:
+        print(f"Process refresh every {PROCESS_REFRESH_SECONDS}s ({PROCESS_REFRESH_SECONDS // 60} min)")
+    print("Waiting for a USB Stream Deck")
+
+    first_open = True
+    try:
+        while True:
+            deck = try_open_deck()
+            if deck is None:
+                time.sleep(RECONNECT_SECONDS)
+                beat()
+                continue
+
+            resume_sleep = first_open and _asleep
+            first_open = False
+            _active_deck = deck
+            beat()
+
+            if resume_sleep:
+                print("Restored asleep after refresh — keys stay off")
+                apply_sleep_display(deck)
+            else:
+                _asleep = False
+                touch_activity()
+                render_current_page(deck)
+
+            deck.set_key_callback(button_callback)
+            print("Super CRT Stream Deck Remote active.")
+
+            try:
+                while True:
+                    time.sleep(POLL_SLEEP)
+                    beat()
+                    if PROCESS_REFRESH_SECONDS and (
+                        time.monotonic() - _process_started
+                    ) >= PROCESS_REFRESH_SECONDS:
+                        self_restart(deck, "hourly refresh")
+                        return
+                    if not deck_still_connected(deck):
+                        print("Stream Deck disconnected — waiting to plug it back in")
+                        break
+                    if not _asleep and (time.monotonic() - _last_activity) >= IDLE_SLEEP_SECONDS:
+                        go_to_sleep(deck)
+            except KeyboardInterrupt:
+                print("\nStopping...")
+                close_deck(deck)
+                return
+            except (TransportError, OSError) as e:
+                print(f"Stream Deck USB error: {e}")
+            finally:
+                _active_deck = None
+                if not _restarting:
+                    close_deck(deck)
+    except KeyboardInterrupt:
+        print("\nStopping...")
 
 
 if __name__ == "__main__":
