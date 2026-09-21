@@ -4,6 +4,8 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 **Super CRT-Control** can be used in combination with [DonutDongle](https://github.com/svirant/DonutDongle), [DonutHole](https://github.com/svirant/DonutHole), [DonutShop](https://github.com/svirant/DonutShop) (Advanced Install only), or [Retro-Bridge](https://github.com/SolidPIPe/retro-bridge/tree/main) (soon), and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.  
 
+Using the [Advanced Install](https://github.com/SG-17/SuperCRTControl/tree/main#linux-debianubuntu) adds a plethora of extra features including newer Extron support (such as the DXP HD 4K Plus), Stream Deck integration, and mDNS.
+
 | [Requirements](#requirements) | [Extron Setup](#setting-up-your-extron) | [Installation](#installation) | [Project Status](#project-status-and-disclaimers) |
 |     :---:      |     :---:      |     :---:      |     :---:      | 
 
@@ -224,6 +226,8 @@ python3 server.py
 
 Edit your .html files, aliases.json, frontpanel/config.js, streamdeck/streamdeck.py files as needed for your setup.  
 If you are a masochist you can manually use nano for this in a terminal, but I'd recommend using a desktop environment in Linux or editing them on another machine and copying the files over (you can open an ssh via PuTTY or something on another machine and quickly copy the contents over in nano too).  
+
+Use of aliases.json URLs is required for the Advanced Install and Stream Deck integration. 
 
 Now we will create the service to run Super CRT-Control in the background and on every boot.
 ```
