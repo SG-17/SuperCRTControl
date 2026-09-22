@@ -4,7 +4,7 @@ A refined and upgraded take on Dochartaigh's [CRT-Control "Crosspoint RESPONSIVE
 
 **Super CRT-Control** can be used in combination with [DonutDongle](https://github.com/svirant/DonutDongle), [DonutHole](https://github.com/svirant/DonutHole), [DonutShop](https://github.com/svirant/DonutShop) (Advanced Install only), or [Retro-Bridge](https://github.com/SolidPIPe/retro-bridge/tree/main) (soon), and a next gen RetroTink (6X CE, 4K CE, 4K Pro) to auto-load profiles on the RetroTink.  
 
-Using the [Advanced Install](https://github.com/SG-17/SuperCRTControl/tree/main#linux-debianubuntu) adds a plethora of extra features including newer Extron support (such as the DXP HD 4K Plus), Stream Deck integration, and mDNS.
+Using the [Advanced Install](https://github.com/SG-17/SuperCRTControl/tree/main#linux-debianubuntu) adds a plethora of extra features including newer Extron support (such as the DXP HD 4K Plus), Stream Deck integration ([demo](https://youtu.be/GZmZMEzzYS4)), and mDNS.
 
 | [Requirements](#requirements) | [Extron Setup](#setting-up-your-extron) | [Installation](#installation) | [Project Status](#project-status-and-disclaimers) |
 |     :---:      |     :---:      |     :---:      |     :---:      | 
@@ -15,7 +15,7 @@ Using the [Advanced Install](https://github.com/SG-17/SuperCRTControl/tree/main#
 <img width="154" height="253" alt="20260821_191048" src="https://github.com/user-attachments/assets/1bdca065-2f53-4735-b73a-36bda6f1fc0d" />
 <img width="634" height="441" alt="image" src="https://github.com/user-attachments/assets/94298627-3617-4d24-99c8-15306f6132dd" />
 <img width="437" height="314" alt="image" src="https://github.com/user-attachments/assets/b45c92f7-8678-4fc6-94e0-ba69b3cbf635" />  
-https://youtu.be/GZmZMEzzYS4
+
 
 
 
