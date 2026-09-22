@@ -5,7 +5,6 @@ import os
 import sys
 import threading
 import time
-from typing import Any
 
 import requests
 from PIL import Image
@@ -17,23 +16,31 @@ try:
 except Exception:
     TransportError = OSError
 
-# Config — put your Super CRT-Control web server IP:PORT/IP/mDNS adddress below
+from streamdeck_config import (
+    HOME_PAGE,
+    IDLE_SLEEP_SECONDS,
+    ORIENTATION,
+    PAGES,
+    PRESS_FLASH_SECONDS,
+    PROCESS_REFRESH_SECONDS,
+    SCC,
+    WAKE_BRIGHTNESS,
+)
 
-SCC = "http://192.168.1.251"
-
-IDLE_SLEEP_SECONDS = 1 * 60          # How long until the Deck sleeps, set to 60 seconds
-WAKE_BRIGHTNESS = 60                 # How bright the Deck's buttons are, set between 0–100
+ORIENTATION_IMAGE = None
 POLL_SLEEP = 0.25
 RECONNECT_SECONDS = 2.0
 OPEN_SETTLE_SECONDS = 0.5
 USB_RESET_SETTLE_SECONDS = 2.5
-ELGATO_VID = "0fd9"
-PROCESS_REFRESH_SECONDS = 60 * 60    # How often the program restarts itself, set to 60 minutes
 HEARTBEAT_STALE_SECONDS = 45
+
+ELGATO_VID = "0fd9"
 LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "streamdeck.log")
 _log_fp = None
 
-CURRENT_PAGE = "HOME"
+CURRENT_PAGE = HOME_PAGE
+DECK_COLS = 5
+DECK_ROWS = 3
 _last_activity = time.monotonic()
 _asleep = False
 _lock = threading.Lock()
@@ -41,200 +48,58 @@ _process_started = time.monotonic()
 _heartbeat = time.monotonic()
 _restarting = False
 _active_deck = None
+_icon_cache: dict[str, bytes] = {}
 
-# Pages: key index 0–14 (Stream Deck MK.2 = 15 keys)
-# Can trigger a url, load a new page of buttons, or both
+def deck_orientation() -> int:
+    try:
+        angle = int(ORIENTATION) % 360
+    except (TypeError, ValueError):
+        return 0
+    if angle not in (0, 90, 180, 270):
+        return 0
+    return angle
 
-PAGES: dict[str, dict[int, dict[str, Any]]] = {
-    "HOME": {
-        0: {
-            "label": "PlayStation 1",
-            "icon_url": f"{SCC}/images/deck/ps1.png",
-            "url": f"{SCC}/ps1",
-        },
-        1: {
-            "label": "PlayStation 2",
-            "icon_url": f"{SCC}/images/deck/ps2.png",
-            "target_page": "PS2_GAMES",
-        },
-        2: {
-            "label": "PlayStation 3",
-            "icon_url": f"{SCC}/images/deck/ps3.png",
-            "url": f"{SCC}/ps3",
-        },
-        3: {
-            "label": "Nintendo Entertainment System",
-            "icon_url": f"{SCC}/images/deck/nes.png",
-            "url": f"{SCC}/nes",
-        },
-        4: {
-            "label": "Super Nintendo",
-            "icon_url": f"{SCC}/images/deck/snes.png",
-            "url": f"{SCC}/snes",
-        },
-        5: {
-            "label": "Nintendo 64",
-            "icon_url": f"{SCC}/images/deck/n64.png",
-            "url": f"{SCC}/n64",
-        },
-        6: {
-            "label": "GameCube",
-            "icon_url": f"{SCC}/images/deck/gamecube.png",
-            "url": f"{SCC}/gamecube",
-        },
-        7: {
-            "label": "Wii",
-            "icon_url": f"{SCC}/images/deck/wii.png",
-            "url": f"{SCC}/wii",
-        },
-        8: {
-            "label": "Super Game Boy",
-            "icon_url": f"{SCC}/images/deck/sgb.png",
-            "url": f"{SCC}/sgb",
-        },
-        9: {
-            "label": "Game Boy Interface",
-            "icon_url": f"{SCC}/images/deck/gbi.png",
-            "url": f"{SCC}/gbi",
-        },
-        10: {
-            "label": "Sega Genesis",
-            "icon_url": f"{SCC}/images/deck/genesis.png",
-            "url": f"{SCC}/gen",
-        },
-        11: {
-            "label": "VCR",
-            "icon_url": f"{SCC}/images/deck/vhs.png",
-            "url": f"{SCC}/vhs",
-        },
-        12: {
-            "label": "TV Games",
-            "icon_url": f"{SCC}/images/deck/tvgames.png",
-            "url": f"{SCC}/tvgames",
-        },
-        13: {
-            "label": "HDMI",
-            "icon_url": f"{SCC}/images/deck/hdmi.png",
-            "target_page": "HDMI",
-        },
-        14: {
-            "label": "Reset",
-            "icon_url": f"{SCC}/images/deck/reset.png",
-            "url": f"{SCC}/reset",
-        },
-    },
-    "PS2_GAMES": {
-        0: {
-            "label": "PlayStation 2",
-            "icon_url": f"{SCC}/images/deck/ps2.png",
-            "url": f"{SCC}/ps2",
-        },
-        1: {
-            "label": "Godzilla Save the Earth",
-            "icon_url": f"{SCC}/images/deck/ps2/godzillaste.png",
-            "url": f"{SCC}/gste",
-        },
-        2: {
-            "label": "King Kong",
-            "icon_url": f"{SCC}/images/deck/ps2/kong.png",
-            "url": f"{SCC}/kong",
-        },
-        3: {
-            "label": "SOCOM Combined Assault",
-            "icon_url": f"{SCC}/images/deck/ps2/socomca.png",
-            "url": f"{SCC}/socomca",
-        },
-        4: {
-            "label": "Star Wars Battlefront",
-            "icon_url": f"{SCC}/images/deck/ps2/swbf.png",
-            "url": f"{SCC}/swbf",
-        },
-        5: {
-            "label": "Star Wars Battlefront II",
-            "icon_url": f"{SCC}/images/deck/ps2/swbf2.png",
-            "url": f"{SCC}/swbf2",
-        },
-        13: {
-            "label": "Main Menu",
-            "icon_url": f"{SCC}/images/deck/home.png",
-            "target_page": "HOME",
-        },
-        14: {
-            "label": "Reset",
-            "icon_url": f"{SCC}/images/deck/reset.png",
-            "url": f"{SCC}/reset",
-        },
-    },
-    "HDMI": {
-        0: {
-            "label": "PlayStation 3",
-            "icon_url": f"{SCC}/images/deck/hdmi/ps3.png",
-            "url": f"{SCC}/ps3hd",
-        },
-        1: {
-            "label": "PlayStation 4",
-            "icon_url": f"{SCC}/images/deck/hdmi/ps4.png",
-            "url": f"{SCC}/ps4",
-        },
-        2: {
-            "label": "PlayStation TV",
-            "icon_url": f"{SCC}/images/deck/hdmi/pstv.png",
-            "url": f"{SCC}/pstv",
-        },
-        3: {
-            "label": "PlayStation 5",
-            "icon_url": f"{SCC}/images/deck/hdmi/ps5.png",
-            "url": f"{SCC}/ps5",
-        },
-        4: {
-            "label": "Xbox 360",
-            "icon_url": f"{SCC}/images/deck/hdmi/360.png",
-            "url": f"{SCC}/360",
-        },
-        5: {
-            "label": "Xbox Series X",
-            "icon_url": f"{SCC}/images/deck/hdmi/xsx.png",
-            "url": f"{SCC}/xsx",
-        },
-        6: {
-            "label": "GameCube",
-            "icon_url": f"{SCC}/images/deck/hdmi/gamecube.png",
-            "url": f"{SCC}/gamecube",
-        },
-        7: {
-            "label": "Game Boy Interface",
-            "icon_url": f"{SCC}/images/deck/hdmi/gbi.png",
-            "url": f"{SCC}/gbi",
-        },
-        8: {
-            "label": "Nintendo Switch",
-            "icon_url": f"{SCC}/images/deck/hdmi/switch.png",
-            "url": f"{SCC}/nsw",
-        },
-        9: {
-            "label": "Nintendo Switch 2",
-            "icon_url": f"{SCC}/images/deck/hdmi/switch2.png",
-            "url": f"{SCC}/nsw2",
-        },
-        10: {
-            "label": "RetroTink 4K Pro",
-            "icon_url": f"{SCC}/images/deck/hdmi/rt4kpro.png",
-            "url": f"{SCC}/tink",
-        },
-        13: {
-            "label": "Main Menu",
-            "icon_url": f"{SCC}/images/deck/home.png",
-            "target_page": "HOME",
-        },
-        14: {
-            "label": "Reset",
-            "icon_url": f"{SCC}/images/deck/reset.png",
-            "url": f"{SCC}/reset",
-        },
-    },
-}
 
-# Do not touch anything below this line
+def visual_grid() -> tuple[int, int]:
+    if deck_orientation() in (90, 270):
+        return DECK_ROWS, DECK_COLS
+    return DECK_COLS, DECK_ROWS
+
+
+def visual_to_hw(visual: int) -> int:
+    angle = deck_orientation()
+    cols, rows = visual_grid()
+    if visual < 0 or visual >= cols * rows:
+        return visual
+    vr, vc = divmod(visual, cols)
+    if angle == 0:
+        hr, hc = vr, vc
+    elif angle == 90:
+        hr, hc = DECK_ROWS - 1 - vc, vr
+    elif angle == 180:
+        hr, hc = DECK_ROWS - 1 - vr, DECK_COLS - 1 - vc
+    else:
+        hr, hc = vc, DECK_COLS - 1 - vr
+    return hr * DECK_COLS + hc
+
+
+def hw_to_visual(hw: int) -> int:
+    angle = deck_orientation()
+    hr, hc = divmod(int(hw), DECK_COLS)
+    if angle == 0:
+        vr, vc = hr, hc
+        cols = DECK_COLS
+    elif angle == 90:
+        vr, vc = hc, DECK_ROWS - 1 - hr
+        cols = DECK_ROWS
+    elif angle == 180:
+        vr, vc = DECK_ROWS - 1 - hr, DECK_COLS - 1 - hc
+        cols = DECK_COLS
+    else:
+        vr, vc = DECK_COLS - 1 - hc, hr
+        cols = DECK_ROWS
+    return vr * cols + vc
+
 
 def touch_activity() -> None:
     global _last_activity
@@ -285,7 +150,7 @@ def start_log_file() -> None:
     sys.stdout = _Tee(sys.__stdout__, _log_fp)
     sys.stderr = _Tee(sys.__stderr__, _log_fp)
     stamp = time.strftime("%Y-%m-%d %H:%M:%S")
-    print(f"----- {stamp} pid={os.getpid()} -----")
+    print(f" {stamp} pid={os.getpid()} ")
     print(f"Logging to {path}")
 
 
@@ -308,32 +173,107 @@ def iter_elgato_usb():
             yield path
 
 
-def set_elgato_authorized(value: str) -> bool:
-    found = list(iter_elgato_usb())
-    if not found:
-        print(f"USB authorized={value}: no Elgato device")
+def _sysfs_write(path: str, value: str) -> bool:
+    try:
+        with open(path, "w", encoding="ascii") as f:
+            f.write(value)
+        return True
+    except OSError as e:
+        print(f"sysfs write {path}={value!r} failed ({e})")
         return False
+
+
+def disable_elgato_autosuspend() -> None:
+    for path in iter_elgato_usb():
+        ctrl = os.path.join(path, "power", "control")
+        auto = os.path.join(path, "power", "autosuspend")
+        auto_d = os.path.join(path, "power", "autosuspend_delay_ms")
+        if os.path.exists(ctrl) and _sysfs_write(ctrl, "on"):
+            print(f"USB autosuspend off {path}")
+        if os.path.exists(auto):
+            _sysfs_write(auto, "-1")
+        if os.path.exists(auto_d):
+            _sysfs_write(auto_d, "-1")
+
+
+def rebind_elgato_hid() -> bool:
     ok = False
-    for path in found:
-        auth = os.path.join(path, "authorized")
+    for path in iter_elgato_usb():
         try:
-            with open(auth, "w", encoding="ascii") as f:
-                f.write(str(value))
-            print(f"USB authorized={value} {path}")
-            ok = True
-        except OSError as e:
-            print(f"USB authorized={value} {path} failed ({e})")
+            names = os.listdir(path)
+        except OSError:
+            continue
+        for name in names:
+            if ":" not in name:
+                continue
+            iface = os.path.join(path, name)
+            link = os.path.join(iface, "driver")
+            if not os.path.islink(link):
+                continue
+            driver = os.path.basename(os.path.realpath(link))
+            unbind = f"/sys/bus/usb/drivers/{driver}/unbind"
+            bind = f"/sys/bus/usb/drivers/{driver}/bind"
+            print(f"HID rebind {name} ({driver})")
+            _sysfs_write(unbind, name)
+            time.sleep(0.4)
+            if _sysfs_write(bind, name):
+                ok = True
+    if ok:
+        time.sleep(1.0)
+        disable_elgato_autosuspend()
     return ok
 
 
-def reset_elgato_usb() -> bool:
-    off = set_elgato_authorized("0")
-    time.sleep(0.6)
-    on = set_elgato_authorized("1")
-    if off or on:
+def parent_usb_path(path: str) -> str | None:
+    name = os.path.basename(path)
+    if "." in name:
+        parent = name.rsplit(".", 1)[0]
+        return os.path.join(os.path.dirname(path), parent)
+    if "-" in name:
+        bus, _, port = name.partition("-")
+        if "." in port:
+            parent = bus + "-" + port.rsplit(".", 1)[0]
+            return os.path.join(os.path.dirname(path), parent)
+    return None
+
+
+def reset_parent_hub() -> bool:
+    parents = []
+    for path in iter_elgato_usb():
+        parent = parent_usb_path(path)
+        if parent and parent not in parents:
+            parents.append(parent)
+    if not parents:
+        print("USB parent hub: none found")
+        return False
+    ok = False
+    for parent in parents:
+        auth = os.path.join(parent, "authorized")
+        if not os.path.exists(auth):
+            print(f"USB parent hub: no authorized at {parent}")
+            continue
+        print(f"USB parent hub reset {parent}")
+        if not _sysfs_write(auth, "0"):
+            continue
+        time.sleep(1.0)
+        if _sysfs_write(auth, "1"):
+            ok = True
+    if ok:
         time.sleep(USB_RESET_SETTLE_SECONDS)
-        return True
-    return False
+        disable_elgato_autosuspend()
+    return ok
+
+
+def recover_elgato_usb(fail_count: int) -> None:
+    disable_elgato_autosuspend()
+    if fail_count == 2:
+        print("Open failed - rebind usbhid")
+        rebind_elgato_hid()
+    elif fail_count == 5:
+        print("Open failed - reset parent USB hub")
+        reset_parent_hub()
+    elif fail_count >= 8 and fail_count % 8 == 0:
+        print("Open still failing - unplug the Stream Deck USB cable")
 
 
 def restore_state_from_env() -> None:
@@ -358,7 +298,7 @@ def self_restart(deck=None, reason: str = "scheduled") -> None:
     if _restarting:
         return
     _restarting = True
-    print(f"Self-restart ({reason})...")
+    print(f"Self-restart ({reason}).")
 
     env = os.environ.copy()
     env["SUPERCRT_DECK_PAGE"] = CURRENT_PAGE
@@ -370,14 +310,10 @@ def self_restart(deck=None, reason: str = "scheduled") -> None:
     closer = threading.Thread(target=_close, name="deck-close", daemon=True)
     closer.start()
     closer.join(timeout=2.0)
-    set_elgato_authorized("0")
-    time.sleep(0.4)
-
     if os.environ.get("INVOCATION_ID"):
         print("Exiting for systemd restart")
         os._exit(0)
 
-    reset_elgato_usb()
     python = sys.executable or "python3"
     argv = [python] + sys.argv
     try:
@@ -405,39 +341,90 @@ def start_watchdog() -> None:
     threading.Thread(target=_run, name="deck-watchdog", daemon=True).start()
 
 
-def set_key_image_from_url(deck, key: int, icon_url: str) -> None:
+def image_orientation() -> int:
+    if ORIENTATION_IMAGE is None:
+        return deck_orientation()
     try:
-        response = requests.get(icon_url, timeout=4)
-        if response.status_code != 200:
-            print(f"Icon HTTP {response.status_code} for key {key}: {icon_url}")
+        angle = int(ORIENTATION_IMAGE) % 360
+    except (TypeError, ValueError):
+        return deck_orientation()
+    if angle not in (0, 90, 180, 270):
+        return deck_orientation()
+    return angle
+
+
+def _compose_key_image(deck, image: Image.Image) -> Image.Image:
+    image = image.convert("RGB")
+    if hasattr(PILHelper, "create_scaled_key_image"):
+        return PILHelper.create_scaled_key_image(deck, image)
+    if hasattr(PILHelper, "create_key_image"):
+        canvas = PILHelper.create_key_image(deck)
+    else:
+        canvas = PILHelper.create_image(deck)
+    fitted = image.copy()
+    fitted.thumbnail(canvas.size)
+    canvas.paste(
+        fitted,
+        (
+            (canvas.width - fitted.width) // 2,
+            (canvas.height - fitted.height) // 2,
+        ),
+    )
+    return canvas
+
+
+def _pil_to_native(deck, image: Image.Image):
+    image_formatted = _compose_key_image(deck, image)
+    angle = image_orientation()
+    if angle:
+        image_formatted = image_formatted.rotate(angle, expand=False)
+    if hasattr(PILHelper, "to_native_key_format"):
+        return PILHelper.to_native_key_format(deck, image_formatted)
+    return PILHelper.to_native_format(deck, image_formatted)
+
+
+def set_key_solid(deck, key: int, color: tuple[int, int, int] = (255, 255, 255)) -> None:
+    try:
+        w, h = deck.key_image_format()["size"]
+    except Exception:
+        w, h = 72, 72
+    try:
+        raw = _pil_to_native(deck, Image.new("RGB", (w, h), color))
+        with deck:
+            deck.set_key_image(key, raw)
+    except Exception as e:
+        print(f"flash key {key}: {e}")
+
+
+def _icon_cache_key(icon_url: str) -> str:
+    return f"{image_orientation()}|{icon_url}"
+
+
+def flash_key(deck, key: int, icon_url: str | None = None) -> None:
+    if PRESS_FLASH_SECONDS <= 0:
+        return
+    set_key_solid(deck, key, (255, 255, 255))
+    time.sleep(PRESS_FLASH_SECONDS)
+    if icon_url:
+        set_key_image_from_url(deck, key, icon_url)
+
+
+def set_key_image_from_url(deck, key: int, icon_url: str) -> None:
+    cache_key = _icon_cache_key(icon_url)
+    raw_bytes = _icon_cache.get(cache_key)
+    if raw_bytes is None:
+        try:
+            response = requests.get(icon_url, timeout=4)
+            if response.status_code != 200:
+                print(f"Icon HTTP {response.status_code} for key {key}: {icon_url}")
+                return
+            image = Image.open(io.BytesIO(response.content)).convert("RGB")
+            raw_bytes = _pil_to_native(deck, image)
+            _icon_cache[cache_key] = raw_bytes
+        except Exception as e:
+            print(f"Network/icon error key {key}: {e}")
             return
-        image = Image.open(io.BytesIO(response.content)).convert("RGB")
-        if hasattr(PILHelper, "create_scaled_key_image"):
-            image_formatted = PILHelper.create_scaled_key_image(deck, image)
-        elif hasattr(PILHelper, "create_key_image"):
-            image_formatted = PILHelper.create_key_image(deck)
-            image.thumbnail(image_formatted.size)
-            image_formatted.paste(
-                image,
-                (
-                    (image_formatted.width - image.width) // 2,
-                    (image_formatted.height - image.height) // 2,
-                ),
-            )
-        else:
-            image_formatted = PILHelper.create_image(deck)
-            image.thumbnail(image_formatted.size)
-            image_formatted.paste(
-                image,
-                (
-                    (image_formatted.width - image.width) // 2,
-                    (image_formatted.height - image.height) // 2,
-                ),
-            )
-        if hasattr(PILHelper, "to_native_key_format"):
-            raw_bytes = PILHelper.to_native_key_format(deck, image_formatted)
-        else:
-            raw_bytes = PILHelper.to_native_format(deck, image_formatted)
+    try:
         with deck:
             deck.set_key_image(key, raw_bytes)
     except Exception as e:
@@ -454,7 +441,7 @@ def clear_all_keys(deck) -> None:
 
 
 def render_current_page(deck) -> None:
-    print(f"\nLoading page: {CURRENT_PAGE}")
+    print(f"\nLoading page: {CURRENT_PAGE} ")
     try:
         with deck:
             deck.set_brightness(WAKE_BRIGHTNESS)
@@ -463,9 +450,9 @@ def render_current_page(deck) -> None:
 
     clear_all_keys(deck)
     page_data = PAGES.get(CURRENT_PAGE, {})
-    for key, data in page_data.items():
+    for visual_key, data in page_data.items():
         if "icon_url" in data:
-            set_key_image_from_url(deck, key, data["icon_url"])
+            set_key_image_from_url(deck, visual_to_hw(int(visual_key)), data["icon_url"])
     print("Page rendered")
 
 
@@ -474,7 +461,7 @@ def go_to_sleep(deck) -> None:
     with _lock:
         if _asleep:
             return
-        print("Idle timeout — Stream Deck sleep")
+        print("Idle timeout - Stream Deck sleep")
         apply_sleep_display(deck)
         _asleep = True
 
@@ -503,11 +490,13 @@ def button_callback(deck, key: int, state: bool) -> None:
 
     touch_activity()
 
+    visual_key = hw_to_visual(key)
     current_page_macros = PAGES.get(CURRENT_PAGE, {})
-    if key not in current_page_macros:
+    if visual_key not in current_page_macros:
         return
 
-    button_data = current_page_macros[key]
+    button_data = current_page_macros[visual_key]
+    flash_key(deck, key, button_data.get("icon_url"))
 
     if "url" in button_data:
         url = button_data["url"]
@@ -587,6 +576,14 @@ def main() -> None:
     global _asleep, _active_deck
 
     start_log_file()
+    cfg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "streamdeck_config.py")
+    print(f"Config:    {cfg_path}")
+    print(f"SCC host:  {SCC}")
+    cols, rows = visual_grid()
+    print(
+        f"Orientation: {deck_orientation()}°  icons {image_orientation()}°  "
+        f"visual grid {cols}×{rows}"
+    )
     restore_state_from_env()
     beat()
     start_watchdog()
@@ -595,7 +592,7 @@ def main() -> None:
     if PROCESS_REFRESH_SECONDS:
         print(f"Process refresh every {PROCESS_REFRESH_SECONDS}s ({PROCESS_REFRESH_SECONDS // 60} min)")
     print("Waiting for a USB Stream Deck (will retry if unplugged).")
-    set_elgato_authorized("1")
+    disable_elgato_autosuspend()
 
     first_open = True
     open_fails = 0
@@ -604,13 +601,13 @@ def main() -> None:
             deck = try_open_deck()
             if deck is None:
                 open_fails += 1
-                if open_fails in (1, 3, 8):
-                    print("Open failed — USB reset")
-                    reset_elgato_usb()
-                time.sleep(RECONNECT_SECONDS)
+                recover_elgato_usb(open_fails)
+                wait = 8.0 if open_fails >= 8 else RECONNECT_SECONDS
+                time.sleep(wait)
                 beat()
                 continue
             open_fails = 0
+            disable_elgato_autosuspend()
 
             resume_sleep = first_open and _asleep
             first_open = False
@@ -638,12 +635,12 @@ def main() -> None:
                         self_restart(deck, "hourly refresh")
                         return
                     if not deck_still_connected(deck):
-                        print("Stream Deck disconnected — waiting to plug it back in.")
+                        print("Stream Deck disconnected - waiting to plug it back in.")
                         break
                     if not _asleep and (time.monotonic() - _last_activity) >= IDLE_SLEEP_SECONDS:
                         go_to_sleep(deck)
             except KeyboardInterrupt:
-                print("\nStopping...")
+                print("\nStopping.")
                 close_deck(deck)
                 return
             except (TransportError, OSError) as e:
@@ -653,7 +650,7 @@ def main() -> None:
                 if not _restarting:
                     close_deck(deck)
     except KeyboardInterrupt:
-        print("\nStopping...")
+        print("\nStopping.")
 
 
 if __name__ == "__main__":
