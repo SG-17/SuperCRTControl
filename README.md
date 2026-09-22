@@ -339,10 +339,10 @@ pip install --upgrade pip
 pip install streamdeck requests pillow
 ```
 
-Update the IP and PORT on line 15 to match your Super CRT-Control web server install and configure your buttons starting on line 30 using the alias URLs you set up during the main Super CRT-Control install.  
+Update the IP:PORT/mDNS address in `streamdeck_config.py` to match your Super CRT-Control web server install and configure your buttons using the alias URLs you set up during the main Super CRT-Control install.  
 If you are a masochist you can manually use nano for this in a terminal, but I'd recommend using a desktop environment in Linux or editing them on another machine and copying the files over (you can open an ssh via PuTTY or something on another machine and quickly copy the contents over in nano too).
 ```
-sudo nano ~/supercrt/streamdeck/streamdeck.py
+sudo nano ~/supercrt/streamdeck/streamdeck_config.py
 ```
 
 Enter the python environment and test that the program runs correctly. Ctrl+C to shut it down while its running in terminal.
